@@ -1,31 +1,324 @@
-.land
-    .land__logo
-        img(src="./img/logo.png" alt="favbet")
-    //.land__left
-    //    .land__title До нових висот з бонусом*
-    //    .land__prize 15 000₴
-    //    .land__spins + 300 фрiспiнiв
-    //    .land__btn хапай штурвал
-    //.land__right
-    //    .land__right-pers
-    //        img(src="./img/pers.png" alt="favbet")
-    //    .land__right-plane
-    //        img(src="./img/plane.png" alt="favbet")
-.footer
-    .footer__text  ТОВ «БУКМЕКЕРСЬКА КОМПАНІЯ «ФАВБЕТ». Ліцензія на провадження діяльності з організації та проведення букмекерської діяльності від 28.12.2022, видана згідно з рішенням КРАІЛ № 433 від 13.12.2022 та Ліцензія на провадження діяльності з організації та проведення азартних ігор казино в мережі Інтернет від 20.04.2021, видана згідно з рішенням КРАІЛ № 137 від 05.04.2021, зі змінами.
-    .footer__wrap
-        ul.footer__licensed
-            li.footer__licensed-item
-                img(src="./img/age.svg" alt="favbet")
-            li.footer__licensed-item
-                img(src="./img/applePay.svg" alt="favbet")
-            li.footer__licensed-item
-                img(src="./img/googlePay.svg" alt="favbet")
-            li.footer__licensed-item
-                img(src="./img/visa.svg" alt="favbet")
-            li.footer__licensed-item
-                img(src="./img/mastercard.svg" alt="favbet")
-        .footer__btns
-            a(href="https://apps.apple.com/ua/app/favbet-ua/id1580749519" target="_blank").footer__appstore
-            a(href="https://favbet.ua/minio/android-files/FavbetUA.apk" target="_blank").footer__googlePlay
-.legal УЧАСТЬ В АЗАРТНИХ ІГРАХ МОЖЕ ВИКЛИКАТИ ІГРОВУ ЗАЛЕЖНІСТЬ. ДОТРИМУЙТЕСЯ ПРАВИЛ (ПРИНЦИПІВ) ВІДПОВІДАЛЬНОЇ ГРИ
+.fav-page
+    .welcome
+        .welcome__title
+            picture
+                source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/welcome/title-mob.png")
+                source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/welcome/title-mob.png")
+                source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/welcome/title-mob.png")
+                source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/welcome/title-desc.png")
+                img(src="./img/welcome/title-desc.png" alt="Favbet")
+        .welcome__subtitle
+            picture
+                source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/welcome/subtitle-mob.png")
+                source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/welcome/subtitle-mob.png")
+                source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/welcome/subtitle-mob.png")
+                source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/welcome/subtitle-desc.png")
+                img(src="./img/welcome/subtitle-desc.png" alt="Favbet")
+        .welcome__prize
+            picture
+                source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/welcome/prize-mob.png")
+                source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/welcome/prize-mob.png")
+                source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/welcome/prize-mob.png")
+                source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/welcome/prize-desc.png")
+                img(src="./img/welcome/prize-desc.png" alt="Favbet")
+        .welcome__btn.btn зробити прогноз
+    .info
+        .info__title.title
+            picture
+                source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/info/title-mob.png")
+                source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/info/title-mob.png")
+                source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/title-mob.png")
+                source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/info/title-desc.png")
+                img(src="./img/info/title-desc.png" alt="Favbet")
+        .info__list
+            .info__item
+                .info__item-num
+                    picture
+                        source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/info/decor1-mob.png")
+                        source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/info/decor1-mob.png")
+                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor1-mob.png")
+                        source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/info/decor1-desc.png")
+                        img(src="./img/info/decor1-desc.png" alt="Favbet")
+                .info__item-text(data-translate="infoText1") Натисни кнопку <br> «Взяти участь»
+                .info__item-btn(data-translate="popupBtn") детальніше
+                .info__item-popup.opacity
+                    .info__item-popup-close
+                    .info__item-popup-scroll
+                        .info__item-popup-text(data-translate="infoPopup1").
+                                З 3 березня до 31 травня 2025 року роби виграшні ставки від 300 ₴
+                                 на турнір «Ліга чемпіонів УЄФА» у розділі «Спорт» або «Live» та заробляй
+                                 по 1 балу за кожні розраховані 300 ₴.
+                                Ставки повинні бути розраховані з результатом «Виграш» та з коефіцієнтом
+                                 від 1.5 (ординар) або від 3.5 (експрес від 3 подій),
+                                 без здійснення ставок з Бонусного балансу, використання бонуса
+                                 «Страховка ставки», «CashOut», «Повернення ставки» та ставок у розділі
+                                 «Cybersport (Pinnacle)» та «Fantasy Football».
+                                З 3 березня до 31 травня 2025 року роби виграшні ставки від 300 ₴
+                                    на турнір «Ліга чемпіонів УЄФА» у розділі «Спорт» або «Live» та заробляй
+                                    по 1 балу за кожні розраховані 300 ₴.
+                                   Ставки повинні бути розраховані з результатом «Виграш» та з коефіцієнтом
+                                    від 1.5 (ординар) або від 3.5 (експрес від 3 подій),
+                                    без здійснення ставок з Бонусного балансу, використання бонуса
+                                    «Страховка ставки», «CashOut», «Повернення ставки» та ставок у розділі
+                                    «Cybersport (Pinnacle)» та «Fantasy Football».
+            .info__item
+                .info__item-num
+                    picture
+                        source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/info/decor2-mob.png")
+                        source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/info/decor2-mob.png")
+                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor2-mob.png")
+                        source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/info/decor2-desc.png")
+                        img(src="./img/info/decor2-desc.png" alt="Favbet")
+                .info__item-text(data-translate="infoText2") Роби виграшні ставки від 300 ₴ на турнір «Ліга чемпіонів УЄФА» та накопичуй бали.
+                .info__item-btn(data-translate="popupBtn") детальніше
+                .info__item-popup.opacity
+                    .info__item-popup-close
+                    .info__item-popup-scroll
+                        .info__item-popup-text(data-translate="infoPopup2").
+                            З 3 березня до 31 травня 2025 року роби виграшні ставки від 300 ₴
+                             на турнір «Ліга чемпіонів УЄФА» у розділі «Спорт» або «Live» та заробляй
+                             по 1 балу за кожні розраховані 300 ₴.
+                            Ставки повинні бути розраховані з результатом «Виграш» та з коефіцієнтом
+                             від 1.5 (ординар) або від 3.5 (експрес від 3 подій),
+                             без здійснення ставок з Бонусного балансу, використання бонуса
+                             «Страховка ставки», «CashOut», «Повернення ставки» та ставок у розділі
+                             «Cybersport (Pinnacle)» та «Fantasy Football».
+            .info__item
+                .info__item-num
+                    picture
+                        source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/info/decor3-mob.png")
+                        source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/info/decor3-mob.png")
+                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor3-mob.png")
+                        source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/info/decor3-desc.png")
+                        img(src="./img/info/decor3-desc.png" alt="Favbet")
+                .info__item-text(data-translate="infoText3")  Вгадуй команди, які проходять далі, та збільшуй свої бали завдяки множнику
+                .info__item-btn(data-translate="popupBtn") детальніше
+                .info__item-popup.opacity
+                    .info__item-popup-close
+                    .info__item-popup-scroll
+                        .info__item-popup-text(data-translate="infoPopup3").
+                            З 3 березня до 31 травня 2025 року роби виграшні ставки від 300 ₴
+                             на турнір «Ліга чемпіонів УЄФА» у розділі «Спорт» або «Live» та заробляй
+                             по 1 балу за кожні розраховані 300 ₴.
+                            Ставки повинні бути розраховані з результатом «Виграш» та з коефіцієнтом
+                             від 1.5 (ординар) або від 3.5 (експрес від 3 подій),
+                             без здійснення ставок з Бонусного балансу, використання бонуса
+                             «Страховка ставки», «CashOut», «Повернення ставки» та ставок у розділі
+                             «Cybersport (Pinnacle)» та «Fantasy Football».
+    .predict
+        .predict__title.title
+            picture
+                source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/predict/title-mob.png")
+                source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/predict/title-mob.png")
+                source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/predict/title-mob.png")
+                source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/predict/title-desc.png")
+                img(src="./img/predict/title-desc.png" alt="Favbet")
+        .predict__wrap
+            .table
+                .table__column.stage1-8._done
+                    .table__column-title
+                        img(src="./img/table/stage1-8.png" alt="Favbet")
+                    .table__column-subtitle(data-translate="columnSubtitle1-8") Оберіть 8 команд
+                    .table__body
+                        .table__pair
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                        .table__pair
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                        .table__pair
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                        .table__pair
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                            .table__chose
+                                .table__team.team1
+                                    .table__team-radio
+                                    .table__team-name арсенал
+                                .table__chose-center
+                                    .table__chose-date 03.03
+                                    .table__chose-icon
+                                    .table__chose-time 12:00
+                                .table__team.team2
+                                    .table__team-radio
+                                    .table__team-name ліверпуль
+                .table__column.stage1-4
+                    .table__column-title
+                        img(src="./img/table/stage1-4.png" alt="Favbet")
+                    .table__column-subtitle(data-translate="columnSubtitle1-4") Оберіть 4 команди
+                    .table__body
+                        .table__chose
+                            .table__team.team1
+                                .table__team-radio
+                                .table__team-name арсенал
+                            .table__chose-center
+                                .table__chose-date 03.03
+                                .table__chose-icon
+                                .table__chose-time 12:00
+                            .table__team.team2
+                                .table__team-radio
+                                .table__team-name ліверпуль
+                        .table__chose
+                            .table__team.team1
+                                .table__team-radio
+                                .table__team-name арсенал
+                            .table__chose-center
+                                .table__chose-date 03.03
+                                .table__chose-icon
+                                .table__chose-time 12:00
+                            .table__team.team2
+                                .table__team-radio
+                                .table__team-name ліверпуль
+                        .table__chose
+                            .table__team.team1
+                                .table__team-radio
+                                .table__team-name арсенал
+                            .table__chose-center
+                                .table__chose-date 03.03
+                                .table__chose-icon
+                                .table__chose-time 12:00
+                            .table__team.team2
+                                .table__team-radio
+                                .table__team-name ліверпуль
+                        .table__chose
+                            .table__team.team1
+                                .table__team-radio
+                                .table__team-name арсенал
+                            .table__chose-center
+                                .table__chose-date 03.03
+                                .table__chose-icon
+                                .table__chose-time 12:00
+                            .table__team.team2
+                                .table__team-radio
+                                .table__team-name ліверпуль
+                .table__column.stage1-2._lock
+                    .table__column-title
+                        img(src="./img/table/stage1-2.png" alt="Favbet")
+                    .table__column-subtitle(data-translate="columnSubtitle1-2") оберіть 2 команди
+                    .table__body
+                        .table__chose
+                            .table__team.team1
+                                .table__team-radio
+                                .table__team-name арсенал
+                            .table__chose-center
+                                .table__chose-date 03.03
+                                .table__chose-icon
+                                .table__chose-time 12:00
+                            .table__team.team2
+                                .table__team-radio
+                                .table__team-name ліверпуль
+                        .table__chose
+                            .table__team.team1
+                                .table__team-radio
+                                .table__team-name арсенал
+                            .table__chose-center
+                                .table__chose-date 03.03
+                                .table__chose-icon
+                                .table__chose-time 12:00
+                            .table__team.team2
+                                .table__team-radio
+                                .table__team-name ліверпуль
+                .table__column.stage-final._lock
+                    .table__column-title
+                        img(src="./img/table/stage-final.png" alt="Favbet")
+                    .table__column-subtitle(data-translate="columnSubtitleFinal") Оберіть 1 команду
+                    .table__body
+                        .table__chose
+                            .table__team.team1
+                                .table__team-radio
+                                .table__team-name арсенал
+                            .table__chose-center
+                                .table__chose-date 03.03
+                                .table__chose-icon
+                                .table__chose-time 12:00
+                            .table__team.team2
+                                .table__team-radio
+                                .table__team-name ліверпуль
+        .predict__multiplier Множник 2
+        .predict__btn.btn зробити прогноз
+        .predict__bottom(data-translate="predictBottom").
+            *Враховується лише останній прогноз,
+            зроблений Учасником за 30 хвилин до
+            початку матчу (до початку вказаної Організатором події).
+    .results
+        .tableResults
+            .tableResults__head
+                .tableResults__head-col(data-translate="tablePlace") №
+                .tableResults__head-col(data-translate="tableId") ID гравця
+                .tableResults__head-col(data-translate="tablePoints") Бали
+                .tableResults__head-col(data-translate="tableMultiplier") Множник
+                .tableResults__head-col(data-translate="tableTotalPoints") Баля після множника
+                .tableResults__head-col(data-translate="tablePrize") Нагорода*
+            .tableResults__wrapp
+                .tableResults__body#results-table
+                .tableResults__body-other#results-table-other
