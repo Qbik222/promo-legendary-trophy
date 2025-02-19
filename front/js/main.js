@@ -5,9 +5,15 @@
     const topResultsTable = document.querySelector('#top-users');
     const resultsTableOther = document.querySelector('#results-table-other');
     const tableNav = document.querySelectorAll(".results__nav-item");
-    const predictColumns = document.querySelectorAll(".table__column")
+    const predictColumns = document.querySelectorAll(".table__column");
+    const moveLeft = document.querySelector(".table__move-left");
+    const moveRight = document.querySelector(".table__move-right");
 
     let tournamentStage = 2
+
+    let columnIndex = tournamentStage - 1
+
+
 
     let locale = 'en';
     let users;
@@ -84,6 +90,9 @@
             renderUsers(users);
             // translate();
         })
+        if(window.innerWidth <= 500){
+            updateActiveStage(predictColumns);
+        }
         predictColumns.forEach((column, i) =>{
             if(i + 1 > tournamentStage){
                 column.classList.add("_lock")
@@ -363,6 +372,43 @@
 
 
     }
+
+    function updateActiveStage(stages) {
+        stages.forEach((stage, index) => {
+
+            stage.classList.remove("_active")
+            if(index === columnIndex){
+                console.log("sadas")
+                stage.classList.add("_active")
+            }
+        });
+    }
+
+    moveLeft.addEventListener("click", () => {
+        if (columnIndex >= 0) {
+            columnIndex--;
+            updateActiveStage(predictColumns);
+        }
+        if (columnIndex < 0) {
+            columnIndex = predictColumns.length - 1;
+            updateActiveStage(predictColumns);
+        }
+    });
+
+    moveRight.addEventListener("click", () => {
+        if (columnIndex < predictColumns.length - 1 || columnIndex >= 0) {
+            columnIndex++;
+            updateActiveStage(predictColumns);
+        }
+        if(columnIndex === predictColumns.length){
+            columnIndex = 0
+            updateActiveStage(predictColumns);
+        }
+    });
+
+
+
+
 
     loadTranslations()
         .then(init);

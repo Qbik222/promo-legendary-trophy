@@ -229,6 +229,10 @@ body
     z-index: 0
     pointer-events: none
     background: url("../img/predict/bg-desc.jpg") no-repeat 0 0/contain
+    @media screen and (max-width: 1050px)
+      background: url("../img/predict/bg-tab.jpg") no-repeat 0 0/contain
+    @media screen and (max-width: 600px)
+      background: url("../img/predict/bg-mob.png") no-repeat 0 0/contain
   &__title
     margin: -40px 0 40px 0
   &__wrap
@@ -266,6 +270,7 @@ body
     font-size: 14px
     text-align: center
     margin-top: 20px
+    z-index: 2
 
 .table
   display: flex

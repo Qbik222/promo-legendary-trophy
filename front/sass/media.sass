@@ -167,23 +167,83 @@
         font-size: 16px
 
 
+//@media screen and (min-width: 540px) and (max-width: 600px)
+//  .tableResults
+//    scale: .76
+//    margin: -30px 0
+
 @media screen and (max-width: 500px)
   .predict
+    max-width: 375px
+    min-width: 375px
+    //left: 50%
+    //transform: translate(-50%, 0)
+    &::before
+      height: 945px
+      max-width: 358px
+      min-width: 358px
+      left: -100px
+      z-index: 0
     &__wrap
       overflow: visible
       position: relative
+      min-width: 100%
+    &__title
+      position: static
+      z-index: 2
+      picture
+        z-index: 2
+        position: relative
+      &::before, &::after
+        content: ""
+        display: block
+        width: 700px
+        position: absolute
+        left: -100px
+        z-index: 1
+        height: 330px
+      &::before
+        background: linear-gradient(180deg, #00003D 0%, rgba(0, 0, 61, 0.00) 100%)
+        top: 70px
+      &::after
+        background: linear-gradient(0deg, #00003D 31%, rgba(0, 0, 61, 0) 100%)
+        bottom: 0
+        height: 630px
+    &__multiplier
+      z-index: 2
   .table
     max-width: 345px
     min-width: 345px
+    &__tab
+      position: absolute
+      display: flex
+      align-items: center
+      justify-content: center
+      gap: 5px
+      &-item
+        width: 8px
+        height: 8px
+        background: $green
+        opacity: .3
+        &._active
+          opacity: 1
     &__move
       display: flex
       align-items: center
       width: 100%
+      min-width: 365px
       position: absolute
       left: 0
-      top: 0
+      top: 40px
       height: 20px
-
+      z-index: 10
+      justify-content: space-between
+      &-left, &-right
+        width: 16px
+        height: 26px
+        background: url("../img/table/move-arrow.png") no-repeat 0 0/contain
+      &-left
+        transform: scale(-1, 1)
     &__body
       gap: 4px
     &__chose
@@ -196,12 +256,21 @@
       position: absolute
       left: 0
       width: 100%
+      height: auto
+      &-title
+        margin-bottom: 20px
       &-subtitle
         background-size: 100% 100%
       &._active
         position: relative
         z-index: 1
         opacity: 1
+      &._lock
+        .table
+          &__column
+            &-subtitle
+              background-size: 100% 100%
+
 @media screen and (max-width: 380px)
   .welcome
     min-width: 380px
