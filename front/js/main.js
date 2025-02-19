@@ -7,7 +7,7 @@
     const tableNav = document.querySelectorAll(".results__nav-item");
     const predictColumns = document.querySelectorAll(".table__column")
 
-    let tournamentStage = 1
+    let tournamentStage = 2
 
     let locale = 'en';
     let users;
@@ -84,12 +84,26 @@
             renderUsers(users);
             // translate();
         })
-        predictColumns.forEach(column =>{
+        predictColumns.forEach((column, i) =>{
+            if(i + 1 > tournamentStage){
+                column.classList.add("_lock")
+            }
+            if(i + 1 < tournamentStage){
+                column.classList.add("_done")
+            }
             setPredictColumn(column)
             if(column.classList.contains("_lock")){
                 const teams = column.querySelectorAll('.table__team-name')
+                const date = column.querySelectorAll('.table__chose-date')
+                const time = column.querySelectorAll('.table__chose-time')
                 teams.forEach(team => {
                     team.textContent = "—"
+                })
+                date.forEach(date => {
+                    date.textContent = "—"
+                })
+                time.forEach(time => {
+                    time.textContent = "—"
                 })
             }
         })

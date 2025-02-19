@@ -298,6 +298,42 @@ body
     display: flex
     background: rgba($dark-blue, .6)
     width: 100%
+    &.lose
+      position: relative
+      overflow: hidden
+      &::before
+        //content: ""
+        position: absolute
+        left: 50%
+        top: 50%
+        opacity: .8
+        transform: translate(-50%, -50%) rotate(90deg)
+        width: 80px
+        height: 280px
+        background: radial-gradient(81.88% 21.27% at 50% 50%, rgba(255, 38, 126, 0.60) 10.03%, rgba(255, 38, 126, 0.00) 100%)
+      .table
+        &__chose
+          &-lose
+            z-index: 2
+    &.win
+      position: relative
+      overflow: hidden
+      &::before
+        //content: ""
+        position: absolute
+        left: 50%
+        opacity: .8
+        top: 50%
+        transform: translate(-50%, -50%) rotate(90deg)
+        width: 80px
+        height: 280px
+        background: radial-gradient(81.88% 21.27% at 50% 50%, rgba(5, 196, 138, 0.60) 10.03%, rgba(5, 196, 138, 0.00) 100%)
+      .table
+        &__chose
+          &-win
+            z-index: 2
+    &-win, &-lose
+      display: none
     &-center
       width: 65px
       display: flex
@@ -319,6 +355,11 @@ body
     flex-direction: column
     align-items: center
     justify-content: flex-start
+    height: 80px
+    &.team1
+      padding: 0 15px 0 5px
+    &.team2
+      padding: 0 5px 0 15px
     &-radio
       width: 24px
       height: 24px
@@ -334,6 +375,7 @@ body
       font-size: 13px
       text-shadow: 0px 2px 2px rgba(0, 0, 61, 0.80)
       text-align: center
+
   &__column._lock
     .table
       &__column
@@ -349,10 +391,49 @@ body
           background: url("../img/table/radio-lock.png") no-repeat 0 0/contain
   &__column._done
     .table
+      &__chose
+        &-date, &-icon, &-time
+          display: none
+        &.win, &.lose
+          &::before
+            content: ""
+          .table
+            &__chose
+              &-lose, &-win
+                //display: block
+                color: $white
+                text-align: center
+                text-transform: uppercase
+                font-size: 14px
+                line-height: 16px
+                min-width: 76px
+                text-shadow: 0px 2px 2px rgba(0, 0, 61, 0.80)
+
+            &__team
+              &._active
+                .table__team-name
+                  color: $green
+                .table__team-radio
+                  background: url("../img/table/icon-win.png") no-repeat 0 0/contain
+              &-radio
+                background: url("../img/table/icon-lose.png") no-repeat 0 0/contain
+              &-name
+                color: $magenta
+        &.win
+          .table
+            &__chose
+              &-win
+                display: block
+        &.lose
+          .table
+            &__chose
+              &-lose
+                display: block
       &__team
         pointer-events: none
         &-radio
           pointer-events: none
+
 
 
 .results
