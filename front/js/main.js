@@ -5,6 +5,7 @@
     const topResultsTable = document.querySelector('#top-users');
     const resultsTableOther = document.querySelector('#results-table-other');
     const tableNav = document.querySelectorAll(".results__nav-item");
+    const predictColumns = document.querySelectorAll(".table__column")
 
     let tournamentStage = 1
 
@@ -17,6 +18,9 @@
     const PRIZES_CSS = ['place1', 'place2', 'place3'];
 
 
+
+    let predictData = JSON.parse(localStorage.getItem("predictData")) || [];
+    console.log(predictData)
     function loadTranslations() {
         return fetch(`${apiURL}/translates/${locale}`).then(res => res.json())
             .then(json => {
@@ -79,6 +83,15 @@
             // users = users.slice(0, 10)
             renderUsers(users);
             // translate();
+        })
+        predictColumns.forEach(column =>{
+            setPredictColumn(column)
+            if(column.classList.contains("_lock")){
+                const teams = column.querySelectorAll('.table__team-name')
+                teams.forEach(team => {
+                    team.textContent = "—"
+                })
+            }
         })
     }
 
@@ -235,6 +248,107 @@
             e.target.classList.add("_active")
         })
     })
+
+    function activateSelectedTeams(storedPredictData) {
+
+        // Проходимося по всіх елементах predictData
+        storedPredictData.forEach(data => {
+            const { stage, team } = data;
+
+            // Знаходимо всі колонки, які відповідають даному етапу (stage)
+            const columns = document.querySelectorAll(`.${getStageClass(stage)}`);
+
+            columns.forEach(column => {
+                // Знаходимо всі блоки з командами в цій колонці
+                const teamBlocks = column.querySelectorAll(".table__chose");
+
+                teamBlocks.forEach(block => {
+                    // Знаходимо всі радіокнопки та назви команд в цьому блоку
+                    const teamRadios = block.querySelectorAll(".table__team-radio");
+                    const teams = block.querySelectorAll(".table__team-name");
+
+                    // Проходимося по всіх командах в блоку
+                    teams.forEach((teamElement, index) => {
+                        // Якщо назва команди співпадає з вибраною командою з predictData
+                        if (teamElement.textContent.trim() === team) {
+                            // Активуємо відповідну радіокнопку
+                            teamRadios[index].classList.add("_active");
+                        }
+                    });
+                });
+            });
+        });
+    }
+
+// Допоміжна функція для отримання класу етапу на основі його назви
+    function getStageClass(stage) {
+        switch (stage) {
+            case "Opening Stage":
+                return "stage1-8";
+            case "Quarterfinals":
+                return "stage1-4";
+            case "Semifinals":
+                return "stage1-2";
+            case "Final":
+                return "stage-final";
+            default:
+                return "";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => activateSelectedTeams(predictData));
+
+    function updateLocalStorage() {
+        localStorage.setItem("predictData", JSON.stringify(predictData));
+    }
+
+    function getTeamName(teamBlock, stage, column) {
+        if(column.classList.contains("_done") || column.classList.contains("_active")){
+            return
+        }
+        const teamRadios = teamBlock.querySelectorAll(".table__team-radio");
+        const teams = teamBlock.querySelectorAll(".table__team-name");
+
+        teamRadios.forEach((radio, index) => {
+            radio.addEventListener("click", (e) => {
+                teamRadios.forEach(item => item.classList.remove("_active"))
+                e.target.classList.add("_active")
+                const selectedTeam = teams[index].textContent.trim();
+
+                // Видаляємо попередню команду з цього блоку
+                predictData = predictData.filter(item => {
+                    if (item.stage !== stage) return true;
+
+                    return !Array.from(teams).some(team => team.textContent.trim() === item.team);
+                });
+
+                // Додаємо нову команду
+                predictData.push({ stage: stage, team: selectedTeam });
+
+                // Оновлюємо localStorage
+                updateLocalStorage();
+
+                console.log(predictData); // Перевіряємо, чи правильно працює
+            });
+        });
+    }
+
+
+    function setPredictColumn(column) {
+        console.log(column.classList.contains("_lock") )
+        let stage = ""
+
+        column.classList.contains("stage1-8") ? stage = "Opening Stage" : null;
+        column.classList.contains("stage1-4") ? stage = "Quarterfinals" : null;
+        column.classList.contains("stage1-2") ? stage = "Semifinals" : null;
+        column.classList.contains("stage-final") ? stage = "Final" : null;
+
+        const teamBlocks = column.querySelectorAll(".table__chose");
+
+        teamBlocks.forEach(block => getTeamName(block, stage, column));
+
+
+    }
 
     loadTranslations()
         .then(init);

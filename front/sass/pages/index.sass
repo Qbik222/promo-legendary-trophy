@@ -62,6 +62,7 @@ body
   flex-direction: column
   align-items: center
   overflow: hidden
+  padding-bottom: 30px
 .welcome
   max-width: 1405px
   min-width: 1405px
@@ -317,18 +318,22 @@ body
     display: flex
     flex-direction: column
     align-items: center
-    justify-content: center
+    justify-content: flex-start
     &-radio
       width: 24px
       height: 24px
       background: url("../img/table/radio.png") no-repeat 0 0/contain
       margin-bottom: 4px
+      margin-top: 15px
+      &._active
+        background: url("../img/table/radio-active.png") no-repeat 0 0/contain
     &-name
       color: $white
       text-transform: uppercase
       font-family: $font-alegreya-med
-      font-size: 14px
+      font-size: 13px
       text-shadow: 0px 2px 2px rgba(0, 0, 61, 0.80)
+      text-align: center
   &__column._lock
     .table
       &__column
@@ -338,10 +343,16 @@ body
           user-select: none
           background: url("../img/table/column-text-lock.png") no-repeat 0 0/contain
       &__team
+        pointer-events: none
         &-radio
+          pointer-events: none
           background: url("../img/table/radio-lock.png") no-repeat 0 0/contain
-  //&__column._done
-  //  .table
+  &__column._done
+    .table
+      &__team
+        pointer-events: none
+        &-radio
+          pointer-events: none
 
 
 .results
