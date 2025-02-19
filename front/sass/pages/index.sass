@@ -2,7 +2,7 @@ $blue: #000055
 $dark-blue: #00003d
 $white: #ffffff
 $magenta: #FF267E
-$green: #3AFFC3
+$green: #05C48A
 $black: #1B1B1F
 
 $font-alegreya-reg: 'Alegreya-Regular', sans-serif
@@ -213,7 +213,7 @@ body
   align-items: center
   max-width: 1570px
   min-width: 1570px
-  padding-top: 40px
+  padding: 40px 0 60px
   position: relative
   &::before
     content: ""
@@ -229,6 +229,29 @@ body
     overflow-x: auto
     max-width: 100%
     z-index: 2
+  &__multiplier
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 6px 45px
+    gap: 4px
+    background: url("../img/table/multiplier-bg.png") no-repeat 0 0/contain
+    margin: -5px 0 20px 0
+    &-text, &-num
+      color: $white
+      font-size: 20px
+      line-height: 28px
+      font-family: $font-alegreya-med
+      text-shadow: 0px 2px 2px rgba(0, 0, 61, 0.80)
+  &__bottom
+    max-width: 440px
+    color: $white
+    font-family: $font-alegreya-med
+    opacity: .8
+    font-size: 14px
+    text-align: center
+    margin-top: 20px
+
 .table
   display: flex
   align-items: flex-start
@@ -321,16 +344,64 @@ body
   //  .table
 
 
+.results
+  display: flex
+  flex-direction: column
+  align-items: center
+  &__nav
+    display: flex
+    width: 100%
+    max-width: 550px
+    justify-content: space-between
+    margin-top: 45px
+    &-item
+      width: 120px
+      height: 80px
+      position: relative
+      &._lock
+        &::before
+          content: ""
+          display: block
+          width: 21px
+          height: 26px
+          position: absolute
+          left: 48%
+          bottom: 10px
+          transform: translate(-50%, 0)
+          background: url("../img/table/lock.png") no-repeat 0 0/contain
+      &._active
+        &::before
+          content: ""
+          display: block
+          width: 100%
+          height: 4px
+          border-radius: 5px
+          background: $magenta
+          position: absolute
+          bottom: -20px
+          left: 0
+      &:nth-child(1)
+        background: url("../img/table/stage1-8.png") no-repeat 0 0/contain
+      &:nth-child(2)
+        background: url("../img/table/stage1-4.png") no-repeat 0 0/contain
+      &:nth-child(3)
+        background: url("../img/table/stage1-2.png") no-repeat 0 0/contain
+      &:nth-child(4)
+        background: url("../img/table/stage-final.png") no-repeat 0 0/contain
+  &__bottom
+    max-width: 570px
+    color: $white
+    font-family: $font-alegreya-med
+    font-size: 14px
+    text-align: center
+    margin: 40px 0 30px
 .tableResults
   display: flex
   flex-direction: column
   position: relative
-  margin: 40px 0 50px 0
-  width: 690px
-  &__wrapp
-    max-height: 600px
-    overflow-y: auto
-    scrollbar-width: auto
+  margin: 20px 0 50px 0
+  min-width: 690px
+  max-width: 690px
   &__head
     display: flex
     align-items: center
@@ -339,15 +410,76 @@ body
       color: $white
       font-size: 14px
       font-family: $font-alegreya-med
+      padding: 12px 0 12px 18px
       &:nth-child(1)
         font-size: 20px
+        padding-left: 35px
   &__body
     width: 100%
     display: flex
     flex-direction: column
+    max-height: 528px
+    overflow-y: auto
+    scrollbar-width: auto
+    &::-webkit-scrollbar-thumb
+      width: 2px
+      background: $green
+    &::-webkit-scrollbar
+      background: rgba($green, .2)
+      border-radius: 5px
+      width: 2px
   &__row
     display: flex
     align-items: center
+    background: rgba(#060626, .5)
+    position: relative
+    &._your
+      border: 2px solid $magenta
+      left: -1px
+      width: calc(100% + 2px)
+      .tableResults__row-item:nth-child(1)
+        width: 86px
+      .tableResults__row-item:nth-child(6)
+         border: none
+    ._your
+      position: absolute
+      left: 7px
+      color: $magenta
+      font-family: $font-alegreya-med
+      font-size: 16px
+      line-height: 20px
+    &.place1, &.place2, &.place3
+      &::before
+        content: ""
+        display: block
+        position: absolute
+        left: 10px
+        top: 50%
+        transform: translate(0, -50%)
+        width: 16px
+        height: 12px
+      &.place1
+        &::before
+          background: url("../img/table/gold.png") no-repeat 0 0/contain
+      &.place2
+        &::before
+          background: url("../img/table/silver.png") no-repeat 0 0/contain
+      &.place3
+        &::before
+          background: url("../img/table/bronze.png") no-repeat 0 0/contain
+    &-item
+      color: $white
+      font-family: $font-alegreya-med
+      font-size: 16px
+      line-height: 20px
+      padding: 12px 0 12px 18px
+      &:not(:last-child)
+        border-right: 1px solid #00BB9F
+      &:nth-child(1)
+        padding-left: 35px
+        white-space: nowrap
+    &:nth-child(even)
+      background: transparent
 
   &__row, &__head
     &-col, &-item
@@ -357,10 +489,124 @@ body
         width: 95px
       &:nth-child(3)
         width: 103px
+        color: $magenta
       &:nth-child(4)
         width: 98px
       &:nth-child(5)
         width: 151px
+        color: $magenta
       &:nth-child(6)
         width: 111px
 
+.drop
+  max-width: 500px
+  width: 100%
+  margin: 0 auto
+  position: relative
+  z-index: 5
+  &__bottom-text
+    color: $white
+    font-size: 10px
+    line-height: 16px
+    font-family: $font-alegreya-reg
+    opacity: .9
+    text-align: center
+    margin-bottom: 15px
+  .dropdown[open] summary::before, .dropdown[open] summary::after
+    transform:  rotate(0deg)
+    bottom: 2px
+  summary
+    list-style: none
+    padding: 15px 35px 15px 35px
+    font-family:  $font-alegreya-reg
+    font-size: 16px
+    cursor: pointer
+    display: flex
+    align-items: center
+    justify-content: space-between
+    color: $white
+    background: url("../img/drop-btn.png") no-repeat 0 0/contain
+    @media screen and (max-width: 600px)
+      font-size: 14px
+      line-height: 22px
+    &::before, &::after
+      position: relative
+      content: ""
+      display: block
+      order: 0
+      width: 0
+      height: 0
+      z-index: 2
+      border-left: 8.5px solid transparent
+      border-right: 8.5px solid transparent
+      border-bottom: 8px solid $green
+      transform: rotate(180deg)
+  &-txt
+    padding: 10px 40px
+    margin: 25px 0
+    max-height: 350px
+    overflow-y: auto
+    scrollbar-width: auto
+    background: url("../img/drop-bg.jpg") no-repeat 0 0/cover
+    background-size: 100% 100%
+    position: relative
+    &::-webkit-scrollbar-thumb
+      width: 2px
+      background: $green
+    &::-webkit-scrollbar
+      background: rgba($green, .2)
+      border-radius: 5px
+      width: 2px
+
+    &-list
+      display: flex
+      flex-direction: column
+      gap: 15px
+      z-index: 0
+      p, strong
+        font-size: 16px
+        line-height: 26px
+        font-family: $font-alegreya-reg
+        color: $white
+        @media screen and (max-width: 600px)
+          font-size: 14px
+          line-height: 22px
+      span
+        font-family:  $font-alegreya-reg
+        display: block
+        padding-left: 15px
+      tr,td
+        font-family:  $font-alegreya-reg
+      td
+        padding-left: 5px
+  .top-decor, .bottom-decor
+    width: 100%
+    height: 20px
+    position: absolute
+    left: 0
+    z-index: 2
+    background: url("../img/drop-decor.png") no-repeat 0 0/contain
+  .top-decor
+    top: 58px
+  .bottom-decor
+    bottom: 4px
+
+.retreat1, .retreat2
+  padding-left: 15px
+  strong
+    font-family: $font-alegreya-semib
+    color: $white
+
+.retreat2
+  padding-left: 30px
+
+.circle
+  padding-left: 35px
+  &:before
+    content: ''
+    width: 5px
+    height: 5px
+    background: $white
+    border-radius: 50%
+    display: inline-block
+    margin: 0 4px 2px 0

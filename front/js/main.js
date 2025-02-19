@@ -4,6 +4,9 @@
     const resultsTableHead = resultsTable.querySelector('.tableResults__head');
     const topResultsTable = document.querySelector('#top-users');
     const resultsTableOther = document.querySelector('#results-table-other');
+    const tableNav = document.querySelectorAll(".results__nav-item");
+
+    let tournamentStage = 1
 
     let locale = 'en';
     let users;
@@ -112,7 +115,7 @@
 
         if (!users || !users.length) return;
 
-        let topUsers = users.slice(0, 10);
+        let topUsers = users.slice(0, 20);
         topUsers.forEach(user => displayUser(user, user.userid === currentUserId, resultsTable, users));
 
         const currentUser = users.find(user => user.userid === currentUserId);
@@ -128,9 +131,7 @@
         const additionalUserRow = document.createElement('div');
         additionalUserRow.classList.add('tableResults__row');
 
-        if (isCurrentUser) {
-            additionalUserRow.classList.add('_yourPlace');
-        }
+
 
         const place = allUsers.indexOf(user) + 1;
         const prizePlaceCss = PRIZES_CSS[place - 1];
@@ -147,6 +148,15 @@
         <div class="tableResults__row-item">${user.totalPoints}</div>
         <div class="tableResults__row-item">${prizeKey ? translateKey(prizeKey) : ' - '}</div>
     `;
+        if (isCurrentUser) {
+            const youBlock = document.createElement('div');
+            youBlock.setAttribute('data-translate', 'you');
+            youBlock.textContent = "Ти" // для тесту поки нема транслейтів
+            youBlock.classList.add('_your');
+            additionalUserRow.append(youBlock)
+            additionalUserRow.classList.add("_your")
+
+        }
         table.append(additionalUserRow);
     }
     function maskUserId(userId) {
@@ -210,7 +220,21 @@
         })
     }
 
+    tableNav.forEach((item, i) =>{
+        if(i + 1 > tournamentStage){
+            item.classList.add("_lock")
+        }
 
+        item.addEventListener("click", (e) =>{
+            if(e.target.classList.contains("_lock")){
+                return
+            }
+            tableNav.forEach(nav =>{
+                nav.classList.remove("_active")
+            })
+            e.target.classList.add("_active")
+        })
+    })
 
     loadTranslations()
         .then(init);
