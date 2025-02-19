@@ -36,7 +36,7 @@
                     picture
                         source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/info/decor1-mob.png")
                         source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/info/decor1-mob.png")
-                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor1-mob.png")
+                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor1-tab.png")
                         source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/info/decor1-desc.png")
                         img(src="./img/info/decor1-desc.png" alt="Favbet")
                 .info__item-text(data-translate="infoText1") Натисни кнопку <br> «Взяти участь»
@@ -66,7 +66,7 @@
                     picture
                         source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/info/decor2-mob.png")
                         source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/info/decor2-mob.png")
-                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor2-mob.png")
+                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor2-tab.png")
                         source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/info/decor2-desc.png")
                         img(src="./img/info/decor2-desc.png" alt="Favbet")
                 .info__item-text(data-translate="infoText2") Роби виграшні ставки від 300 ₴ на турнір «Ліга чемпіонів УЄФА» та накопичуй бали.
@@ -88,7 +88,7 @@
                     picture
                         source(media="(max-width: 600px) and (orientation: portrait)" srcset="./img/info/decor3-mob.png")
                         source(media="(max-width: 950px) and (orientation: landscape) and (max-height: 450px)" srcset="./img/info/decor3-mob.png")
-                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor3-mob.png")
+                        source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/info/decor3-tab.png")
                         source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/info/decor3-desc.png")
                         img(src="./img/info/decor3-desc.png" alt="Favbet")
                 .info__item-text(data-translate="infoText3")  Вгадуй команди, які проходять далі, та збільшуй свої бали завдяки множнику
@@ -115,7 +115,10 @@
                 img(src="./img/predict/title-desc.png" alt="Favbet")
         .predict__wrap
             .table
-                .table__column.stage1-8
+                .table__move
+                    .table__move-left
+                    .table__move-right
+                .table__column.stage1-8._active
                     .table__column-title
                         img(src="./img/table/stage1-8.png" alt="Favbet")
                     .table__column-subtitle(data-translate="columnSubtitle1-8") Оберіть 8 команд
