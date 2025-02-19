@@ -348,12 +348,76 @@ body
   display: flex
   flex-direction: column
   align-items: center
+  max-width: 1570px
+  min-width: 1570px
+  background: url("../img/results/bg-desc.jpg") no-repeat 50% 0/cover
+  background-size: 1570px 1005px
+  position: relative
+  &__players
+    position: absolute
+    z-index: 1
+    top: 0
+    width: 1570px
+    height: 1000px
+    pointer-events: none
+    overflow-x: hidden
+    &::before, &::after
+      content: ""
+      display: block
+      position: absolute
+      bottom: 0
+    &::before
+      width: 375px
+      height: 485px
+      left: -65px
+      background: url("../img/results/player-left.png") no-repeat 0 0/contain
+    &::after
+      width: 426px
+      height: 485px
+      right: -60px
+      background: url("../img/results/player-right.png") no-repeat 0 0/contain
+  &::before
+    content: ""
+    display: block
+    width: 100%
+    height: 290px
+    background: linear-gradient(180deg, #00003D 2.35%, rgba(0, 0, 61, 0.00) 100%)
+    position: absolute
+    top: -2px
+    left: 0
+    z-index: 1
+  &::after
+    content: ""
+    display: block
+    width: 690px
+    height: 1000px
+    position: absolute
+    background: $dark-blue
+    opacity: .72
+    left: 50%
+    transform: translate(-50%, 0)
+    top: 0
+
+  &__title
+    z-index: 2
   &__nav
     display: flex
     width: 100%
     max-width: 550px
     justify-content: space-between
     margin-top: 45px
+    z-index: 2
+    &::before
+      content: ""
+      display: block
+      width: 100%
+      height: 105px
+      position: absolute
+      //bottom: 255px
+      top: 902px
+      left: 0
+      background: linear-gradient(0deg, #00003D 0%, rgba(0, 0, 61, 0.00) 100%)
+
     &-item
       width: 120px
       height: 80px
@@ -394,14 +458,38 @@ body
     font-family: $font-alegreya-med
     font-size: 14px
     text-align: center
-    margin: 40px 0 30px
+    margin: 30px 0
+  &__column
+    position: absolute
+    top: 0
+    z-index: 0
+    width: 1365px
+    height: 290px
+    left: 50%
+    transform: translate(-50%, 0)
+    background: url("../img/results/top-column-desc.png") no-repeat 0 0/contain
+    &::before, &::after
+      content: ""
+      display: block
+      width: 375px
+      height: 797px
+      position: absolute
+    &::before
+      background: url("../img/results/left-desc.png") no-repeat 0 0/contain
+      top: 73%
+      left: 3px
+    &::after
+      background: url("../img/results/right-desc.png") no-repeat 0 0/contain
+      top: 73%
+      right: 2px
 .tableResults
   display: flex
   flex-direction: column
   position: relative
-  margin: 20px 0 50px 0
+  margin: 20px 0 30px 0
   min-width: 690px
   max-width: 690px
+  z-index: 2
   &__head
     display: flex
     align-items: center
