@@ -264,6 +264,7 @@ body
       text-shadow: 0px 2px 2px rgba(0, 0, 61, 0.80)
   &__bottom
     max-width: 440px
+    width: 95vw
     color: $white
     font-family: $font-alegreya-med
     opacity: .8
@@ -471,6 +472,8 @@ body
   @media screen and (max-width: 500px)
     background: url("../img/results/bg-mob.jpg") no-repeat 50% 0/cover
     background-size: 600px 805px
+  @media screen and (max-width: 350px)
+    background-size: 600px 725px
   &__players
     position: absolute
     z-index: 1
@@ -502,8 +505,14 @@ body
         left: 65px
         width: 90px
         height: 655px
-        bottom: 185px
+        bottom: 202px
         background: url("../img/results/left-mob.png") no-repeat 0 0/contain
+      @media screen and (max-width: 403px)
+        bottom: 220px
+      @media screen and (max-width: 350px)
+        left: 96px
+        height: 585px
+        bottom: 234px
     &::after
       width: 426px
       height: 485px
@@ -520,11 +529,17 @@ body
       @media screen and (max-width: 700px)
         right: 405px
       @media screen and (max-width: 500px)
-        right: 65px
+        right: 56px
         width: 90px
         height: 655px
-        bottom: 185px
+        bottom: 202px
         background: url("../img/results/right-mob.png") no-repeat 0 0/contain
+      @media screen and (max-width: 403px)
+        bottom: 220px
+      @media screen and (max-width: 350px)
+        right: 76px
+        height: 585px
+        bottom: 234px
   &::before
     content: ""
     display: block
@@ -761,7 +776,7 @@ body
 
 .drop
   max-width: 500px
-  width: 100%
+  width: 95%
   margin: 0 auto
   position: relative
   z-index: 5
@@ -786,10 +801,11 @@ body
     align-items: center
     justify-content: space-between
     color: $white
-    background: url("../img/drop-btn.png") no-repeat 0 0/contain
+    background: url("../img/drop-btn.png") no-repeat 0 0/cover
+    background-size: 100% 100%
     @media screen and (max-width: 600px)
-      font-size: 14px
-      line-height: 22px
+      font-size: 16px
+      line-height: 16px
     &::before, &::after
       position: relative
       content: ""

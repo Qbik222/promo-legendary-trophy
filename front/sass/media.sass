@@ -98,7 +98,7 @@
     max-width: 450px
     min-width: 450px
     padding-top: 15px
-    height: 600px
+    height: 560px
     margin-bottom: 0
     &__btn
       margin-top: 25px
@@ -147,6 +147,13 @@
       height: 180px
       align-items: flex-end
       justify-content: center
+      &-popup
+        &-close
+          transform: translate(0, -100%)
+        &._left
+          left: 50%
+        &._right
+          left: 50%
       &:nth-child(1)
         .info__item-text
           font-size: 18px
@@ -278,6 +285,7 @@
       left: 0
       width: 100%
       height: auto
+      pointer-events: none
       &-title
         margin-bottom: 20px
       &-subtitle
@@ -286,6 +294,7 @@
         position: relative
         z-index: 1
         opacity: 1
+        pointer-events: initial
       &._lock
         .table
           &__column
@@ -296,6 +305,8 @@
     min-width: 600px
     scale: 1
     margin-bottom: 0
+    &::after
+      height: 810px
     &__players
       width: 100%
       height: 100%
@@ -308,6 +319,8 @@
       align-items: center
       justify-content: center
       margin: 15px 0 10px
+      &::before
+        content: none
       &-item
         display: none
         &._active
@@ -347,6 +360,11 @@
         background: url("../img/table/move-arrow.png") no-repeat 0 0/contain
       &-left
         transform: scale(-1, 1)
+    &__btn
+      margin-top: 19px
+    &__bottom
+      margin: 20px 0
+      max-width: 95vw
   .tableResults
     max-width: 345px
     min-width: auto
@@ -372,11 +390,11 @@
         &:nth-child(1)
           padding-left: 55px
       &._your
-        left: 6px
-        width: calc(100% - 12px)
+        left: 0
+        width: 100%
         .tableResults__row-item:nth-child(1)
-          width: 79px
-          padding-left: 47px
+          width: 85px
+          padding-left: 52px
 
 @media screen and (max-width: 380px)
   .welcome
@@ -392,9 +410,33 @@
         bottom: -30px
 
 
-@media screen and (max-width: 340px)
+@media screen and (max-width: 350px)
+  .title
+    max-width: 300px
   .welcome
     &__subtitle
       max-width: 250px
     &__prize
       max-width: 300px
+  .info
+    &__list
+      scale: .86
+      margin: -45px 0
+  .results
+    &__move
+      max-width: 265px
+      min-width: 265px
+  .predict
+    &__wrap
+      scale: .85
+      margin: -45px 0
+    &__bottom
+      max-width: 95vw
+  .tableResults
+    scale: .86
+    margin: -30px 0
+    //&__row
+    //  &._your
+    //    width: 99%
+
+
