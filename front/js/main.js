@@ -8,6 +8,11 @@
     const predictColumns = document.querySelectorAll(".table__column");
     const moveLeft = document.querySelector(".table__move-left");
     const moveRight = document.querySelector(".table__move-right");
+    const moveLeftResult = document.querySelector(".results__move-left");
+    const moveRightResult = document.querySelector(".results__move-right");
+    const tabsResult = document.querySelectorAll(".results__tab-item");
+    const tabsContainer = document.querySelector('.results__tab')
+
 
     let tournamentStage = 2
 
@@ -262,9 +267,26 @@
         })
     }
 
+
+    tabsContainer.innerHTML = '';
+
+    for (let i = 0; i < tournamentStage; i++) {
+        const tab = document.createElement('div');
+        tab.classList.add('results__tab-item');
+        tabsContainer.appendChild(tab);
+    }
+
+    const tableNavTab = document.querySelectorAll(".results__tab-item");
+
     tableNav.forEach((item, i) =>{
         if(i + 1 > tournamentStage){
             item.classList.add("_lock")
+        }
+
+        // console.log(i + 1, tournamentStage)
+
+        if(i + 1 === tournamentStage){
+            item.classList.add("_active")
         }
 
         item.addEventListener("click", (e) =>{
@@ -277,6 +299,20 @@
             e.target.classList.add("_active")
         })
     })
+    tableNavTab.forEach((item, i) =>{
+        if(i + 1 === tournamentStage){
+            item.classList.add("_active")
+        }
+    })
+
+    const tableTab = document.querySelectorAll('.table__tab-item')
+
+    tableTab.forEach((item, i) =>{
+        if(i + 1 === tournamentStage){
+            item.classList.add("_active")
+        }
+    })
+
 
     function activateSelectedTeams(storedPredictData) {
 
@@ -379,6 +415,7 @@
 
     }
 
+
     function updateActiveStage(stages) {
         stages.forEach((stage, index) => {
 
@@ -398,7 +435,19 @@
         if (columnIndex < 0) {
             columnIndex = predictColumns.length - 1;
             updateActiveStage(predictColumns);
+            tableTab.forEach((item, i) =>{
+                item.classList.remove("_active")
+                if(i + 1 === columnIndex){
+                    item.classList.add("_active")
+                }
+            })
         }
+        tableTab.forEach((item, i) =>{
+            item.classList.remove("_active")
+            if(i === columnIndex){
+                item.classList.add("_active")
+            }
+        })
     });
 
     moveRight.addEventListener("click", () => {
@@ -410,11 +459,64 @@
             columnIndex = 0
             updateActiveStage(predictColumns);
         }
+        tableTab.forEach((item, i) =>{
+            item.classList.remove("_active")
+            if(i === columnIndex){
+                item.classList.add("_active")
+            }
+        })
     });
 
+    moveLeftResult.addEventListener("click", () => {
+        if (columnIndex > 0) {
+            columnIndex--;
+        } else {
+            columnIndex = tabsResult.length - 1;
+        }
+        // updateActiveStage(tabsResult);
+        tableNav.forEach((item, i) =>{
+            item.classList.remove("_active")
+            if(columnIndex < 1){
+                columnIndex = tournamentStage
+            }
 
+            if(i + 1 === columnIndex){
+                item.classList.add("_active")
+            }
 
+        })
+        tableNavTab.forEach((item, i) =>{
+            item.classList.remove("_active")
+            if(i + 1 === columnIndex){
+                item.classList.add("_active")
+            }
+        })
+    });
 
+    moveRightResult.addEventListener("click", () => {
+        if (columnIndex < tabsResult.length - 1) {
+            columnIndex++;
+        } else {
+            columnIndex = 0;
+        }
+        tableNav.forEach((item, i) =>{
+            item.classList.remove("_active")
+            if(columnIndex > tournamentStage){
+                columnIndex = 1
+            }
+
+            if(i + 1 === columnIndex){
+                item.classList.add("_active")
+            }
+
+        })
+        tableNavTab.forEach((item, i) =>{
+            item.classList.remove("_active")
+            if(i + 1 === columnIndex){
+                item.classList.add("_active")
+            }
+        })
+    });
 
     loadTranslations()
         .then(init);

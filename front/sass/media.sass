@@ -175,8 +175,17 @@
     margin-bottom: -230px
   .tableResults
     margin-bottom: -15px
+    backdrop-filter: none
+    &__head
+      position: relative
+      bottom: 15px
+    &__wrapp
+      align-items: flex-start
+      margin-top: -15px
     &__body
       max-height: 616px
+      backdrop-filter: blur(10px)
+
 
 @media screen and (max-width: 500px)
   .predict
@@ -194,6 +203,7 @@
       overflow: visible
       position: relative
       min-width: 100%
+      left: 4px
     &__title
       position: static
       z-index: 2
@@ -225,21 +235,26 @@
       display: flex
       align-items: center
       justify-content: center
-      gap: 5px
+      gap: 10px
+      left: 50.5%
+      transform: translate(-50%, 0)
+      bottom: -50px
       &-item
         width: 8px
         height: 8px
         background: $green
         opacity: .3
+        border-radius: 50%
         &._active
           opacity: 1
     &__move
       display: flex
       align-items: center
-      width: 100%
-      min-width: 365px
+      min-width: 335px
+      max-width: 335px
       position: absolute
-      left: 0
+      left: 48.5%
+      transform: translate(-50%, 0)
       top: 40px
       height: 20px
       z-index: 10
@@ -292,14 +307,46 @@
       display: flex
       align-items: center
       justify-content: center
-      margin-top: 25px
+      margin: 15px 0 10px
       &-item
         display: none
         &._active
           display: block
           &::before
             content: none
-
+    &__tab
+      display: flex
+      align-items: center
+      justify-content: center
+      position: absolute
+      z-index: 5
+      gap: 5px
+      top: 180px
+      left: 49.8%
+      transform: translate(-50%, 0)
+      &-item
+        width: 8px
+        height: 8px
+        background: $green
+        border-radius: 50%
+        opacity: .5
+        &._active
+          opacity: 1
+    &__move
+      min-width: 325px
+      max-width: 325px
+      display: flex
+      align-items: center
+      position: absolute
+      justify-content: space-between
+      top: 120px
+      z-index: 5
+      &-left, &-right
+        width: 16px
+        height: 26px
+        background: url("../img/table/move-arrow.png") no-repeat 0 0/contain
+      &-left
+        transform: scale(-1, 1)
   .tableResults
     max-width: 345px
     min-width: auto

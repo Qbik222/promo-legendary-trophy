@@ -470,7 +470,7 @@ body
   position: relative
   @media screen and (max-width: 500px)
     background: url("../img/results/bg-mob.jpg") no-repeat 50% 0/cover
-    background-size: 600px 800px
+    background-size: 600px 805px
   &__players
     position: absolute
     z-index: 1
@@ -501,8 +501,8 @@ body
       @media screen and (max-width: 500px)
         left: 65px
         width: 90px
-        height: 725px
-        bottom: 178px
+        height: 655px
+        bottom: 185px
         background: url("../img/results/left-mob.png") no-repeat 0 0/contain
     &::after
       width: 426px
@@ -522,8 +522,8 @@ body
       @media screen and (max-width: 500px)
         right: 65px
         width: 90px
-        height: 725px
-        bottom: 178px
+        height: 655px
+        bottom: 185px
         background: url("../img/results/right-mob.png") no-repeat 0 0/contain
   &::before
     content: ""
@@ -550,6 +550,8 @@ body
 
   &__title
     z-index: 3
+  &__move
+    display: none
   &__nav
     display: flex
     width: 100%
@@ -570,7 +572,7 @@ body
 
     &-item
       width: 120px
-      height: 80px
+      height: 85px
       position: relative
       &._lock
         &::before
@@ -650,6 +652,8 @@ body
         top: 72%
         right: 270px
         background: url("../img/results/right-tab.png") no-repeat 0 0/contain
+  &__tab
+    display: none
 .tableResults
   display: flex
   flex-direction: column
