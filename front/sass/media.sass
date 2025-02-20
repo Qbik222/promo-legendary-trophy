@@ -1,10 +1,10 @@
-@media screen and (max-width: 1450px)
-  .results
-    &__players
-      &::before
-        left: 135px
-      &::after
-        right: 135px
+//@media screen and (max-width: 1450px)
+//  .results
+//    &__players
+//      &::before
+//        left: 135px
+//      &::after
+//        right: 135px
 
 @media screen and (max-width: 1280px)
   .predict
@@ -59,10 +59,19 @@
         content: none
     &__players
       z-index: 3
-      &::before
-        left: 365px
-      &::after
-        right: 365px
+      //&::before
+      //  left: 365px
+      //&::after
+      //  right: 365px
+  .info
+    &__item
+      &-popup
+        &-close
+          transform: translate(0, -100%)
+        &._left
+          left: 80%
+        &._right
+          left: 20%
 
 
 @media screen and (max-width: 700px)
@@ -70,11 +79,6 @@
     &__list
       scale: .9
   .results
-    &__players
-      &::before
-        left: 405px
-      &::after
-        right: 405px
     &::after
       width: 620px
   .tableResults
@@ -165,12 +169,14 @@
         min-width: 210px
         text-align: left
         font-size: 16px
-
-
-//@media screen and (min-width: 540px) and (max-width: 600px)
-//  .tableResults
-//    scale: .76
-//    margin: -30px 0
+  .results
+    scale: .8
+    transform-origin: top center
+    margin-bottom: -230px
+  .tableResults
+    margin-bottom: -15px
+    &__body
+      max-height: 616px
 
 @media screen and (max-width: 500px)
   .predict
@@ -270,6 +276,60 @@
           &__column
             &-subtitle
               background-size: 100% 100%
+  .results
+    max-width: 600px
+    min-width: 600px
+    scale: 1
+    margin-bottom: 0
+    &__players
+      width: 100%
+      height: 100%
+      z-index: 4
+    &__column
+      top: -90px
+    &__nav
+      max-width: 100vw
+      display: flex
+      align-items: center
+      justify-content: center
+      margin-top: 25px
+      &-item
+        display: none
+        &._active
+          display: block
+          &::before
+            content: none
+
+  .tableResults
+    max-width: 345px
+    min-width: auto
+    overflow-x: auto
+    scale: 1
+    margin-bottom: 0
+    &::-webkit-scrollbar-thumb
+      height: 2px
+      background: $green
+    &::-webkit-scrollbar
+      background: rgba($green, .2)
+      border-radius: 5px
+      height: 2px
+    &__body
+      max-height: 440px
+    &__head, &__wrapp
+      min-width: 690px
+    &__row
+      &.place1, &.place2, &.place3
+        &::before
+          left: 30px
+      &-item
+        &:nth-child(1)
+          padding-left: 55px
+      &._your
+        left: 6px
+        width: calc(100% - 12px)
+        .tableResults__row-item:nth-child(1)
+          width: 79px
+          padding-left: 47px
 
 @media screen and (max-width: 380px)
   .welcome

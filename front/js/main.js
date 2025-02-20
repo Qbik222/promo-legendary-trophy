@@ -237,6 +237,12 @@
 
 
     popups.forEach((popup, i) =>{
+        if(i === 0){
+            popup.classList.add("_left")
+        }
+        if(i === popups.length - 1){
+            popup.classList.add("_right")
+        }
         const close = popup.querySelector(".info__item-popup-close")
         const open = popup.parentNode.querySelector(".info__item-btn")
         setPopup(open, close, popup)

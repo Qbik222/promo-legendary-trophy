@@ -389,6 +389,8 @@ body
       margin-top: 15px
       &._active
         background: url("../img/table/radio-active.png") no-repeat 0 0/contain
+      &:hover
+        cursor: pointer
     &-name
       color: $white
       text-transform: uppercase
@@ -466,6 +468,9 @@ body
   background: url("../img/results/bg-desc.jpg") no-repeat 50% 0/cover
   background-size: 1570px 1005px
   position: relative
+  @media screen and (max-width: 500px)
+    background: url("../img/results/bg-mob.jpg") no-repeat 50% 0/cover
+    background-size: 600px 800px
   &__players
     position: absolute
     z-index: 1
@@ -484,21 +489,42 @@ body
       height: 485px
       left: -65px
       background: url("../img/results/player-left.png") no-repeat 0 0/contain
+      @media screen and (max-width: 1450px)
+        left: 135px
       @media screen and (max-width: 840px)
         width: 100px
         background: url("../img/results/left-tab.png") no-repeat 0 0/contain
         height: 805px
+        left: 365px
+      @media screen and (max-width: 700px)
+        left: 405px
+      @media screen and (max-width: 500px)
+        left: 65px
+        width: 90px
+        height: 725px
+        bottom: 178px
+        background: url("../img/results/left-mob.png") no-repeat 0 0/contain
     &::after
       width: 426px
       height: 485px
       right: -60px
       background: url("../img/results/player-right.png") no-repeat 0 0/contain
+      @media screen and (max-width: 1450px)
+        right: 135px
       @media screen and (max-width: 840px)
         width: 100px
         height: 805px
         bottom: 0
-        right: 270px
+        right: 365px
         background: url("../img/results/right-tab.png") no-repeat 0 0/contain
+      @media screen and (max-width: 700px)
+        right: 405px
+      @media screen and (max-width: 500px)
+        right: 65px
+        width: 90px
+        height: 725px
+        bottom: 178px
+        background: url("../img/results/right-mob.png") no-repeat 0 0/contain
   &::before
     content: ""
     display: block
@@ -596,6 +622,10 @@ body
       background: url("../img/results/top-column-tab.png") no-repeat 0 0/contain
       width: 840px
       height: 300px
+    @media screen and (max-width: 500px)
+      background: url("../img/results/top-column-mob.jpg") no-repeat 0 0/contain
+      width: 640px
+      height: 320px
     &::before, &::after
       content: ""
       display: block
