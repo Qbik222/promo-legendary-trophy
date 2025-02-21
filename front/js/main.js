@@ -1,24 +1,32 @@
 (function (){
-    const apiURL = 'https://fav-prom.com/api_shanghai';
-    const resultsTable = document.querySelector('#results-table');
-    const resultsTableHead = resultsTable.querySelector('.tableResults__head');
-    const topResultsTable = document.querySelector('#top-users');
-    const resultsTableOther = document.querySelector('#results-table-other');
-    const tableNav = document.querySelectorAll(".results__nav-item");
-    const predictColumns = document.querySelectorAll(".table__column");
-    const moveLeft = document.querySelector(".table__move-left");
-    const moveRight = document.querySelector(".table__move-right");
-    const moveLeftResult = document.querySelector(".results__move-left");
-    const moveRightResult = document.querySelector(".results__move-right");
-    const tabsResult = document.querySelectorAll(".results__tab-item");
-    const tabsContainer = document.querySelector('.results__tab')
+    const apiURL = 'https://fav-prom.com/api_legendary_trophy';
+    // const apiURL = 'https://fav-prom.com/api_shanghai';
+    const resultsTable = document.querySelector('#results-table'),
+        unauthMsgs = document.querySelectorAll('.unauth-msg'),
+        participateBtns = document.querySelectorAll('.btn-join'),
+        youAreInBtns = document.querySelectorAll('.took-part'),
+        predictionBtns = document.querySelectorAll('.confirmBtn'),
+        multiplierSpans = document.querySelectorAll('.predict__multiplier-num'),
+        resultsTableHead = resultsTable.querySelector('.tableResults__head'),
+        topResultsTable = document.querySelector('#top-users'),
+        resultsTableOther = document.querySelector('#results-table-other'),
+        tableNav = document.querySelectorAll(".results__nav-item"),
+        predictColumns = document.querySelectorAll(".table__column"),
+        moveLeft = document.querySelector(".table__move-left"),
+        moveRight = document.querySelector(".table__move-right"),
+        moveLeftResult = document.querySelector(".results__move-left"),
+        moveRightResult = document.querySelector(".results__move-right"),
+        tabsResult = document.querySelectorAll(".results__tab-item"),
+        tabsContainer = document.querySelector('.results__tab');
 
 
     let tournamentStage = 2
 
     let columnIndex = tournamentStage - 1
 
+    let userInfo = {};
 
+    let translateState = false
 
     let locale = 'en';
     let users;
@@ -28,35 +36,88 @@
 
     const PRIZES_CSS = ['place1', 'place2', 'place3'];
 
-
-
     let predictData = JSON.parse(localStorage.getItem("predictData")) || [];
     console.log(predictData)
+
+    let checkUserAuth = () => {
+        if (userId) {
+            console.log(userId)
+            for (const unauthMes of unauthMsgs) {
+                unauthMes.classList.add('hide');
+            }
+            request(`/favuser/${userId}`)
+                .then(res => {
+                    if (res.userid) {
+                        participateBtns.forEach(item => item.classList.add('hide'));
+                        youAreInBtns.forEach(item => item.classList.remove('hide'));
+                        predictionBtns.forEach(item => item.classList.remove('hide'));
+                        refreshUserInfo(res);
+                    } else {
+                        participateBtns.forEach(item => item.classList.remove('hide'));
+                    }
+                })
+        } else {
+            for (let participateBtn of participateBtns) {
+                participateBtn.classList.add('hide');
+            }
+            for (const unauthMes of unauthMsgs) {
+                console.log(unauthMes)
+                unauthMes.classList.remove('hide');
+            }
+        }
+    }
+
+    function refreshUserInfo(user) {
+        if (!user) {
+            return;
+        }
+        userInfo = user;
+        console.log(userInfo)
+
+        // Оновлюємо всі multiplierSpans
+        multiplierSpans.forEach((span, index) => {
+            span.innerHTML = userInfo.multiplier || 0;
+        });
+
+        // let openingBet = {
+        //     bigWinner: {team: 'APEKS', outcome: false},
+        //     bigLoser: {team: 'CLOUD9', outcome: true},
+        //     teamsBet: [{team: 'ENCE'}, {team: 'HEROIC'}, {team: 'SAW', outcome: true}, {team: 'FURIA'}, {team: 'KOI', outcome: false}, {team: 'AMKAL'}, {team: 'LEGACY'}]
+        // };
+        // refreshBets(user.openingBet, promoStages[0]);
+        // refreshBets(user.eliminationBet, promoStages[1]);
+        // refreshBets(user.winnerBet, promoStages[2]);
+
+        // if (activePhase && isValidBet(userInfo[activePhase.betFieldName])) {
+        //     predictionBtns.forEach(item => item.classList.remove('blockBtn'));
+        // }
+    }
+
     function loadTranslations() {
-        return fetch(`${apiURL}/translates/${locale}`).then(res => res.json())
+        return fetch(`${apiURL}/new-translates/${locale}`).then(res => res.json())
             .then(json => {
                 i18nData = json;
-                // translate();
-
-                // var mutationObserver = new MutationObserver(function (mutations) {
-                //     translate();
-                // });
-                // mutationObserver.observe(document.getElementById('sportTour'), {
-                //     childList: true,
-                //     subtree: true,
-                // });
-
+                translate();
+                var mutationObserver = new MutationObserver(function (mutations) {
+                    translate();
+                });
+                mutationObserver.observe(document.getElementById('legendary-trophy'), {
+                    childList: true,
+                    subtree: true,
+                });
             });
     }
 
     function translate() {
         const elems = document.querySelectorAll('[data-translate]')
-        if (elems && elems.length) {
+        if(translateState){
             elems.forEach(elem => {
                 const key = elem.getAttribute('data-translate');
                 elem.innerHTML = i18nData[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key;
                 elem.removeAttribute('data-translate');
             })
+        }else{
+            console.log("translation work!")
         }
         refreshLocalizedClass();
     }
@@ -123,6 +184,8 @@
         })
     }
 
+
+
     function init() {
         if (window.store) {
             var state = window.store.getState();
@@ -136,15 +199,44 @@
                     if (!!window.g_user_id) {
                         userId = window.g_user_id;
                         InitPage();
-                        // checkUserAuth();
+                        checkUserAuth();
                         clearInterval(i);
                     }
                 } else {
                     clearInterval(i);
                 }
             }, 200);
-        }}
 
+        }
+        checkUserAuth();
+
+        participateBtns.forEach((authBtn, i) => {
+            authBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                participate();
+            });
+        });
+    }
+
+    function participate() {
+        if (!userId) {
+            return;
+        }
+
+        const params = {userid: userId};
+
+        request('/user', {
+            method: 'POST',
+            body: JSON.stringify(params)
+        }).then(res => {
+            participateBtns.forEach(item => item.classList.add('hide'));
+            youAreInBtns.forEach(item => item.classList.remove('hide'));
+            predictionBtns.forEach(item => item.classList.remove('hide'));
+            participate = true;
+            checkUserAuth();
+            InitPage();
+        });
+    }
 
     function renderUsers(users) {
         populateUsersTable(users, userId);

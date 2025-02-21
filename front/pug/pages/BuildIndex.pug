@@ -1,4 +1,4 @@
-.fav-page
+.fav-page#legendary-trophy
     .welcome
         .welcome__title
             picture
@@ -21,7 +21,9 @@
                 source(media="(min-width: 601px) and (max-width: 1050px) and (orientation: portrait)" srcset="./img/welcome/prize-mob.png")
                 source(media="(min-width: 601px) and (orientation: landscape)" srcset="./img/welcome/prize-desc.png")
                 img(src="./img/welcome/prize-desc.png" alt="Favbet")
-        .welcome__btn.btn зробити прогноз
+        .welcome__btn.btn.unauth-msg.hide(data-translate="signBtn") авторизуйся
+        .welcome__btn.btn.btn-join.hide(data-translate="joinBtn") взяти участь
+        .welcome__btn.btn.took-part.hide(data-translate="playBtn") зробити ставки
     .info
         .info__title.title
             picture
@@ -123,7 +125,7 @@
                         .table__tab-item
                         .table__tab-item
                         .table__tab-item
-                .table__column.stage1-8._active
+                .table__column.stage1-8
                     .table__column-title
                         img(src="./img/table/stage1-8.png" alt="Favbet")
                     .table__column-subtitle(data-translate="columnSubtitle1-8") Оберіть 8 команд
@@ -344,8 +346,10 @@
                                 .table__team-name ліверпуль
         .predict__multiplier
             .predict__multiplier-text(data-translate="multiplier") Множник
-            .predict__multiplier-num 2
-        .predict__btn.btn зробити прогноз
+            .predict__multiplier-num 1
+        .predict__btn.btn.unauth-msg.hide(data-translate="signBtn") авторизуйся
+        .predict__btn.btn.btn-join.hide(data-translate="joinBtn") взяти участь
+        .predict__btn.btn.took-part.hide(data-translate="confirmBtn") зробити прогноз
         .predict__bottom(data-translate="predictBottom").
             *Враховується лише останній прогноз,
             зроблений Учасником за 30 хвилин до
@@ -384,8 +388,10 @@
             .tableResults__wrapp
                 .tableResults__body#results-table
                 .tableResults__body-other#results-table-other
-        .results__btn.btn зробити прогноз
-        .results__bottom *Під призовим фондом у 2 000 000 ₴ мається на увазі отримання призу у вигляді електронних грошових замінників в Акції «Легендарний трофей». Деталі на сайті www.favbet.ua. Загальний період дії акції – з 03.03.2025 до 31.05.2025 року
+        .results__btn.btn.unauth-msg.hide(data-translate="signBtn") авторизуйся
+        .results__btn.btn.btn-join.hide(data-translate="joinBtn") взяти участь
+        .results__btn.btn.took-part.hide(data-translate="playBtn") зробити ставки
+        .results__bottom(data-translate="resultsBottom") *Під призовим фондом у 2 000 000 ₴ мається на увазі отримання призу у вигляді електронних грошових замінників в Акції «Легендарний трофей». Деталі на сайті www.favbet.ua. Загальний період дії акції – з 03.03.2025 до 31.05.2025 року
     .drop
         details.dropdown
             summary(data-translate="rulesBtn") Правила та умови Акції

@@ -9,6 +9,9 @@ $font-alegreya-reg: 'Alegreya-Regular', sans-serif
 $font-alegreya-med: 'Alegreya-Medium', sans-serif
 $font-alegreya-semib: 'Alegreya-SemiBold', sans-serif
 
+.hide
+  display: none !important
+
 .opacity
   opacity: 0 !important
   pointer-events: none !important
@@ -626,6 +629,7 @@ body
     font-size: 14px
     text-align: center
     margin: 30px 0
+    z-index: 3
   &__column
     position: absolute
     top: 0
@@ -725,6 +729,9 @@ body
       font-size: 16px
       line-height: 20px
     &.place1, &.place2, &.place3
+      &._your
+        ._your
+          left: 53px
       &::before
         content: ""
         display: block
@@ -763,6 +770,7 @@ body
         width: 87px
       &:nth-child(2)
         width: 95px
+        padding-left: 13px
       &:nth-child(3)
         width: 103px
         color: $magenta
