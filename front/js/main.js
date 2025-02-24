@@ -613,5 +613,11 @@
     loadTranslations()
         .then(init);
 
+    document.querySelector(".dark-btn").addEventListener("click", () =>{
+        console.log('dasdas')
+        document.body.classList.toggle("dark")
+    })
+
+
 })()
 

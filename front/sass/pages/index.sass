@@ -4,10 +4,17 @@ $white: #ffffff
 $magenta: #FF267E
 $green: #05C48A
 $black: #1B1B1F
+$dark: #1B1B1F
 
 $font-alegreya-reg: 'Alegreya-Regular', sans-serif
 $font-alegreya-med: 'Alegreya-Medium', sans-serif
 $font-alegreya-semib: 'Alegreya-SemiBold', sans-serif
+
+.menu-test
+  position: fixed
+  left: 0
+  top: 0
+  z-index: 10
 
 .hide
   display: none !important
@@ -47,6 +54,8 @@ $font-alegreya-semib: 'Alegreya-SemiBold', sans-serif
     position: absolute
     top: 0
     background: linear-gradient(180deg, $dark-blue 0%, rgba(0, 0, 61, 0.00) 100%)
+  &._dark
+    display: none
 
 body.light
   background: $dark-blue
@@ -699,7 +708,8 @@ body
     display: flex
     flex-direction: column
     max-height: 528px
-    overflow-y: auto
+    min-height: 528px
+    //overflow-y: auto
     scrollbar-width: auto
     &::-webkit-scrollbar-thumb
       width: 2px
@@ -895,3 +905,48 @@ body
     border-radius: 50%
     display: inline-block
     margin: 0 4px 2px 0
+
+
+// dark
+body.dark
+  background: $dark
+  .predict
+    &::before
+      background: url("../img/predict/bg-desc-dark.jpg") no-repeat 0 0/contain
+      @media screen and (max-width: 1050px)
+        background: url("../img/predict/bg-tab-dark.jpg") no-repeat 0 0/contain
+      @media screen and (max-width: 600px)
+        background: url("../img/predict/bg-mob.png") no-repeat 0 0/contain
+    &__title
+      &::after
+        background: linear-gradient(0deg, $dark 31%, rgba(0, 0, 61, 0) 100%)
+
+  .fav-page
+    background: $dark
+  .title
+    display: none
+    &._dark
+      display: block
+    &::before
+     background: linear-gradient(180deg, $dark 0%, rgba(0, 0, 61, 0) 100%)
+
+  .results
+    &::before
+      background: linear-gradient(180deg, $dark 2.35%, rgba(0, 0, 61, 0) 100%)
+    &::after
+      background: $dark
+  .info
+    &::before
+      background: linear-gradient(180deg, $dark 0%, rgba(0, 0, 61, 0) 100%)
+    &::after
+      background: linear-gradient(0deg, $dark 0%, rgba(0, 0, 61, 0) 100%)
+  .results
+    &__nav
+      &::before
+       background: linear-gradient(0deg, $dark 0%, rgba(0, 0, 61, 0) 100%)
+    &__players
+      @media screen and (max-width: 500px)
+        &::before
+          background: url("../img/results/left-mob-dark.png") no-repeat 0 0/contain
+        &::after
+          background: url("../img/results/right-mob-dark.png") no-repeat 0 0/contain
