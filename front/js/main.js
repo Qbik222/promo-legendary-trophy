@@ -26,7 +26,7 @@
 
     let userInfo = {};
 
-    let translateState = false
+    let translateState = true
 
     let locale = 'en';
     let users;
