@@ -28,7 +28,7 @@
 
     let translateState = true
 
-    let locale = 'en';
+    let locale = 'uk';
     let users;
     let i18nData = {};
     let userId;
