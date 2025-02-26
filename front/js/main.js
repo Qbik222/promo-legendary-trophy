@@ -1,14 +1,15 @@
 (function (){
     const apiURL = 'https://fav-prom.com/api_legendary_trophy';
-    // const apiURL = 'https://fav-prom.com/api_shanghai';
+    const apiURLTable = 'https://fav-prom.com/api_shanghai';
     const resultsTable = document.querySelector('#results-table'),
+        mainPage = document.querySelector(".fav-page"),
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
         participateBtns = document.querySelectorAll('.btn-join'),
         youAreInBtns = document.querySelectorAll('.took-part'),
         predictionBtns = document.querySelectorAll('.confirmBtn'),
         multiplierSpans = document.querySelectorAll('.predict__multiplier-num'),
         resultsTableHead = resultsTable.querySelector('.tableResults__head'),
-        topResultsTable = document.querySelector('#top-users'),
+        topResultsTable = document.querySelector('#results-table'),
         resultsTableOther = document.querySelector('#results-table-other'),
         tableNav = document.querySelectorAll(".results__nav-item"),
         predictColumns = document.querySelectorAll(".table__column"),
@@ -27,12 +28,14 @@
     let userInfo = {};
 
     let translateState = true
-
-    let locale = 'uk';
+    let debug = true
+    // let locale = 'uk';
+    let locale = sessionStorage.getItem("locale") ?? "uk"
     let users;
     let i18nData = {};
+    let i18nDataTable = {}
     let userId;
-    userId = 100300268;
+    userId = sessionStorage.getItem("userId") ? Number(sessionStorage.getItem("userId")) : null
 
     const PRIZES_CSS = ['place1', 'place2', 'place3'];
 
@@ -119,17 +122,17 @@
         }else{
             console.log("translation work!")
         }
-        refreshLocalizedClass();
+        refreshLocalizedClass(mainPage);
     }
 
-    function refreshLocalizedClass(element, baseCssClass) {
+    function refreshLocalizedClass(element) {
         if (!element) {
             return;
         }
         for (const lang of ['uk', 'en']) {
-            element.classList.remove(baseCssClass + lang);
+            element.classList.remove(lang);
         }
-        element.classList.add(baseCssClass + locale);
+        element.classList.add(locale);
     }
 
     const request = function (link, extraOptions) {
@@ -143,6 +146,8 @@
     }
 
 
+
+
     function getData() {
         return Promise.all([
             request('/users?nocache=1'),
@@ -150,10 +155,21 @@
     }
 
     const InitPage = () => {
+        if(debug){
+            Promise.all([
+                requestTable('/users?nocache=1'),
+            ]).then(res =>{
+                users = res[0].sort((a, b) => b.points - a.points);
+                renderUsers(users);
+            })
+
+        }
         getData().then(res => {
             users = res[0].sort((a, b) => b.points - a.points);
             // users = users.slice(0, 10)
-            renderUsers(users);
+            if(!debug) {
+                renderUsers(users);
+            }
             // translate();
         })
         if(window.innerWidth <= 500){
@@ -210,6 +226,7 @@
         }
         checkUserAuth();
 
+
         participateBtns.forEach((authBtn, i) => {
             authBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -240,6 +257,7 @@
 
     function renderUsers(users) {
         populateUsersTable(users, userId);
+
     }
 
     function populateUsersTable(users, currentUserId) {
@@ -271,8 +289,15 @@
         if (prizePlaceCss) {
             additionalUserRow.classList.add(prizePlaceCss);
         }
+        let prizeKey;
 
-        const prizeKey = getPrizeTranslationKey(place);
+        if (debug){
+                prizeKey = getPrizeTranslationKeyTest(place)
+        }else{
+            prizeKey = getPrizeTranslationKey(place)
+        }
+        console.log(prizeKey)
+
         additionalUserRow.innerHTML = `
         <div class="tableResults__row-item">${place}</div>
         <div class="tableResults__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
@@ -291,6 +316,7 @@
 
         }
         table.append(additionalUserRow);
+        translateTable()
     }
     function maskUserId(userId) {
         return "**" + userId.toString().slice(2);
@@ -300,7 +326,7 @@
         if (!key) {
             return;
         }
-        return i18nData[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key;
+        return debug ? i18nDataTable[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key : i18nData[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key;
     }
 
     function getPrizeTranslationKey(place) {
@@ -328,6 +354,7 @@
             return `prize_176-200`
         }
     }
+
 
     const popupBtns = document.querySelectorAll(".info__item-btn")
     const popups = document.querySelectorAll(".info__item-popup")
@@ -611,13 +638,98 @@
     });
 
     loadTranslations()
-        .then(init);
+        .then(init)
+        .then(loadTranslationsTable);
 
     document.querySelector(".dark-btn").addEventListener("click", () =>{
-        console.log('dasdas')
         document.body.classList.toggle("dark")
     })
 
+    const lngBtn = document.querySelector(".lng-btn")
+
+    lngBtn.addEventListener("click", () => {
+        if (sessionStorage.getItem("locale")) {
+            sessionStorage.removeItem("locale");
+        } else {
+            sessionStorage.setItem("locale", "en");
+        }
+        window.location.reload();
+    });
+
+    const authBtn = document.querySelector(".auth-btn")
+
+    authBtn.addEventListener("click", () =>{
+        if(userId){
+            sessionStorage.removeItem("userId")
+        }else{
+            sessionStorage.setItem("userId", '100300268')
+        }
+        window.location.reload()
+    })
+
+    // for test
+    const requestTable = function (link, extraOptions) {
+        return fetch(apiURLTable + link, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            ...(extraOptions || {})
+        }).then(res => res.json())
+    }
+
+    function getPrizeTranslationKeyTest(place) {
+        if (place <= 5) {
+            return `prize_${place}`
+        } else if (place <= 10) {
+            return `prize_6-10`
+        } else if (place <= 20) {
+            return `prize_11-20`
+        } else if (place <= 35) {
+            return `prize_21-35`
+        } else if (place <= 50) {
+            return `prize_36-50`
+        } else if (place <= 75) {
+            return `prize_51-75`
+        } else if (place <= 100) {
+            return `prize_76-100`
+        } else if (place <= 125) {
+            return `prize_101-125`
+        } else if (place <= 150) {
+            return `prize_126-150`
+        } else if (place <= 175) {
+            return `prize_151-175`
+        } else if (place <= 200) {
+            return `prize_176-200`
+        }
+    }
+
+
+    function loadTranslationsTable() {
+        return fetch(`${apiURLTable}/translates/${locale}`).then(res => res.json())
+            .then(json => {
+                i18nDataTable = json;
+            });
+    }
+
+    function translateTable() {
+
+        const elems = topResultsTable.querySelectorAll('[data-translate]')
+
+
+        if(translateState){
+            elems.forEach(elem => {
+                const key = elem.getAttribute('data-translate');
+                elem.innerHTML = i18nDataTable[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key;
+                elem.removeAttribute('data-translate');
+            })
+        }else{
+            console.log("translation work!")
+        }
+        refreshLocalizedClass(mainPage);
+    }
+
+    // for test
 
 })()
 
