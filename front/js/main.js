@@ -6,7 +6,7 @@
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
         participateBtns = document.querySelectorAll('.btn-join'),
         youAreInBtns = document.querySelectorAll('.took-part'),
-        predictionBtns = document.querySelectorAll('.confirmBtn'),
+        predictionBtn = document.querySelector('.confirmBtn'),
         multiplierSpans = document.querySelectorAll('.predict__multiplier-num'),
         resultsTableHead = resultsTable.querySelector('.tableResults__head'),
         topResultsTable = document.querySelector('#results-table'),
@@ -21,7 +21,7 @@
         tabsContainer = document.querySelector('.results__tab');
 
 
-    let tournamentStage = 2
+    let tournamentStage = sessionStorage.getItem("tournamentStage") ? Number(sessionStorage.getItem("tournamentStage")) : 1
 
     let columnIndex = tournamentStage - 1
 
@@ -53,7 +53,7 @@
                     if (res.userid) {
                         participateBtns.forEach(item => item.classList.add('hide'));
                         youAreInBtns.forEach(item => item.classList.remove('hide'));
-                        predictionBtns.forEach(item => item.classList.remove('hide'));
+                        predictionBtn.classList.remove('hide');
                         refreshUserInfo(res);
                     } else {
                         participateBtns.forEach(item => item.classList.remove('hide'));
@@ -182,6 +182,9 @@
             if(i + 1 < tournamentStage){
                 column.classList.add("_done")
             }
+            if(i + 1 === tournamentStage){
+                column.classList.add("_active")
+            }
             setPredictColumn(column)
             if(column.classList.contains("_lock")){
                 const teams = column.querySelectorAll('.table__team-name')
@@ -198,6 +201,7 @@
                 })
             }
         })
+        checkButtonState()
     }
 
 
@@ -248,7 +252,7 @@
         }).then(res => {
             participateBtns.forEach(item => item.classList.add('hide'));
             youAreInBtns.forEach(item => item.classList.remove('hide'));
-            predictionBtns.forEach(item => item.classList.remove('hide'));
+            predictionBtn.remove('hide');
             participate = true;
             checkUserAuth();
             InitPage();
@@ -432,6 +436,31 @@
         }
     })
 
+    function checkButtonState() {
+        const activeColumn = document.querySelector(".table__column._active");
+        if (!activeColumn || !localStorage.getItem("predictData")) return;
+
+        const stageClass = Array.from(activeColumn.classList).find(cls => cls.startsWith('stage'))
+        console.log(stageClass)
+        const predictData = JSON.parse(localStorage.getItem("predictData"));
+        const stage = getStageClassColumn(stageClass);
+        console.log(stage)
+        const selectedTeams = predictData.filter(item => item.stage === stage).length
+
+        console.log(predictData.filter(item => item.stage === stage))
+
+
+        const totalSelectable = activeColumn.querySelectorAll(".table__chose").length;
+
+        console.log(selectedTeams, totalSelectable);
+
+        // Якщо всі можливі варіанти вибрані, розблоковуємо кнопку, інакше блокуємо
+        if (selectedTeams >= totalSelectable) {
+            predictionBtn.classList.remove("_lock");
+        } else {
+            predictionBtn.classList.add("_lock");
+        }
+    }
 
     function activateSelectedTeams(storedPredictData) {
 
@@ -440,6 +469,7 @@
             const { stage, team } = data;
 
             // Знаходимо всі колонки, які відповідають даному етапу (stage)
+            console.log(stage)
             const columns = document.querySelectorAll(`.${getStageClass(stage)}`);
 
             columns.forEach(column => {
@@ -480,6 +510,21 @@
         }
     }
 
+    function getStageClassColumn(stage) {
+        switch (stage) {
+            case "stage1-8":
+                return "Opening Stage";
+            case "stage1-4":
+                return "Quarterfinals";
+            case "stage1-2":
+                return "Semifinals";
+            case "stage-final":
+                return "Final";
+            default:
+                return "";
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => activateSelectedTeams(predictData));
 
     function updateLocalStorage() {
@@ -487,14 +532,21 @@
     }
 
     function getTeamName(teamBlock, stage, column) {
-        if(column.classList.contains("_done") || column.classList.contains("_active")){
+        if(column.classList.contains("_done")){
             return
         }
         const teamRadios = teamBlock.querySelectorAll(".table__team-radio");
         const teams = teamBlock.querySelectorAll(".table__team-name");
 
+        console.log(teamBlock)
+
         teamRadios.forEach((radio, index) => {
+            console.log(radio)
             radio.addEventListener("click", (e) => {
+                setTimeout(() =>{
+                    checkButtonState()
+                }, 50)
+
                 teamRadios.forEach(item => item.classList.remove("_active"))
                 e.target.classList.add("_active")
                 const selectedTeam = teams[index].textContent.trim();
@@ -528,6 +580,8 @@
         column.classList.contains("stage-final") ? stage = "Final" : null;
 
         const teamBlocks = column.querySelectorAll(".table__chose");
+
+        console.log(teamBlocks)
 
         teamBlocks.forEach(block => getTeamName(block, stage, column));
 
@@ -666,6 +720,18 @@
         }
         window.location.reload()
     })
+
+    const tournamentBtn = document.querySelector(".stage-btn")
+    tournamentBtn.textContent = `stage ${tournamentStage}`
+
+    tournamentBtn.addEventListener("click", () => {
+        tournamentStage += 1;
+        if (tournamentStage > 5) {
+            tournamentStage = 1;
+        }
+        sessionStorage.setItem("tournamentStage", tournamentStage);
+        window.location.reload()
+    });
 
     // for test
     const requestTable = function (link, extraOptions) {

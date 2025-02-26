@@ -41,6 +41,9 @@ $font-alegreya-semib: 'Alegreya-SemiBold', sans-serif
   text-shadow: 0px 2px 4px rgba(0, 0, 61, 0.88)
   transition: background .5s ease-in-out
   z-index: 3
+  &._lock
+    filter: grayscale(100%)
+    pointer-events: none
   &:hover
     cursor: pointer
     background: url("../img/btn-bg-hover.png") no-repeat 0 0/contain

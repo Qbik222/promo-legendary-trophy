@@ -2,6 +2,7 @@
     button.dark-btn dark
     button.lng-btn en
     button.auth-btn auth
+    button.stage-btn
 .fav-page#legendary-trophy
     .welcome
         .welcome__title
@@ -297,8 +298,8 @@
                         img(src="./img/table/stage1-4.png" alt="Favbet")
                     .table__column-subtitle(data-translate="columnSubtitle1-4") Оберіть 4 команди
                     .table__body
-                        .table__chose
-                            .table__team.team1
+                        .table__chose.win
+                            .table__team.team1._active
                                 .table__team-radio
                                 .table__team-name Реал Мадрид
                             .table__chose-center
@@ -310,7 +311,7 @@
                             .table__team.team2
                                 .table__team-radio
                                 .table__team-name Барселона
-                        .table__chose
+                        .table__chose.lose
                             .table__team.team1
                                 .table__team-radio
                                 .table__team-name Ліверпуль
@@ -320,11 +321,11 @@
                                 .table__chose-date 03.03
                                 .table__chose-icon
                                 .table__chose-time 12:00
-                            .table__team.team2
+                            .table__team.team2._active
                                 .table__team-radio
                                 .table__team-name Парі Сен-Жермен
-                        .table__chose
-                            .table__team.team1
+                        .table__chose.lose
+                            .table__team.team1._active
                                 .table__team-radio
                                 .table__team-name Манчестер Сіті
                             .table__chose-center
@@ -336,8 +337,8 @@
                             .table__team.team2
                                 .table__team-radio
                                 .table__team-name Інтер
-                        .table__chose
-                            .table__team.team1
+                        .table__chose.win
+                            .table__team.team1._active
                                 .table__team-radio
                                 .table__team-name Арсенал
                             .table__chose-center
@@ -354,21 +355,21 @@
                         img(src="./img/table/stage1-2.png" alt="Favbet")
                     .table__column-subtitle(data-translate="columnSubtitle1-2") оберіть 2 команди
                     .table__body
-                        .table__chose
+                        .table__chose.lose
                             .table__team.team1
                                 .table__team-radio
-                                .table__team-name арсенал
+                                .table__team-name Парі Сен-Жермен
                             .table__chose-center
                                 .table__chose-win(data-translate="predictWin") Прогноз вірний
                                 .table__chose-lose(data-translate="predictLose") прогноз не вірний
                                 .table__chose-date 03.03
                                 .table__chose-icon
                                 .table__chose-time 12:00
-                            .table__team.team2
+                            .table__team.team2._active
                                 .table__team-radio
-                                .table__team-name ліверпуль
-                        .table__chose
-                            .table__team.team1
+                                .table__team-name реал мадрид
+                        .table__chose.win
+                            .table__team.team1.active
                                 .table__team-radio
                                 .table__team-name арсенал
                             .table__chose-center
@@ -385,8 +386,8 @@
                         img(src="./img/table/stage-final.png" alt="Favbet")
                     .table__column-subtitle(data-translate="columnSubtitleFinal") Оберіть 1 команду
                     .table__body
-                        .table__chose
-                            .table__team.team1
+                        .table__chose.lose
+                            .table__team.team1._active
                                 .table__team-radio
                                 .table__team-name арсенал
                             .table__chose-center
@@ -403,7 +404,7 @@
             .predict__multiplier-num 1
         .predict__btn.btn.unauth-msg.hide(data-translate="signBtn") авторизуйся
         .predict__btn.btn.btn-join.hide(data-translate="joinBtn") взяти участь
-        .predict__btn.btn.confirmBtn.hide(data-translate="confirmBtn") зробити прогноз
+        .predict__btn.btn.confirmBtn.hide._lock(data-translate="confirmBtn") зробити прогноз
         .predict__bottom(data-translate="predictBottom").
             *Враховується лише останній прогноз,
             зроблений Учасником за 30 хвилин до
