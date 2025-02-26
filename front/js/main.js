@@ -55,11 +55,14 @@
                         youAreInBtns.forEach(item => item.classList.remove('hide'));
                         predictionBtn.classList.remove('hide');
                         refreshUserInfo(res);
+
                     } else {
                         participateBtns.forEach(item => item.classList.remove('hide'));
+                        topResultsTable.classList.add("auth")
                     }
                 })
         } else {
+            topResultsTable.classList.add("auth")
             for (let participateBtn of participateBtns) {
                 participateBtn.classList.add('hide');
             }
@@ -731,6 +734,12 @@
         }
         sessionStorage.setItem("tournamentStage", tournamentStage);
         window.location.reload()
+    });
+
+    const clearButton = document.querySelector(".clear-btn");
+    clearButton.addEventListener("click", () => {
+        localStorage.clear();
+        location.reload();
     });
 
     // for test
