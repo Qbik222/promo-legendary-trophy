@@ -9,7 +9,12 @@
 @media screen and (max-width: 1280px)
   .predict
     &__multiplier
-      margin: 10px 0 20px 0
+      margin: 20px 0 20px 0
+  .info
+    &__item
+      &-popup
+        &-close
+          transform: translate(0, -100%)
 
 @media screen and (max-width: 1100px)
   .title
@@ -433,7 +438,8 @@
   .predict
     &__wrap
       scale: .85
-      margin: -45px 0
+      margin: -35px 0
+
     &__bottom
       max-width: 95vw
   .tableResults
@@ -442,5 +448,11 @@
     //&__row
     //  &._your
     //    width: 99%
+
+
+@media screen and (max-width: 950px) and (max-height: 450px) and (orientation: landscape)
+  .info
+    &__item
+      height: 380px
 
 

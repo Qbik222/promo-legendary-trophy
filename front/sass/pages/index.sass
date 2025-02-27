@@ -905,6 +905,14 @@ body
   .bottom-decor
     bottom: 4px
 
+details summary
+  list-style: none
+  cursor: pointer
+
+  &::-webkit-details-marker
+    display: none
+
+
 .retreat1, .retreat2
   padding-left: 15px
   strong
@@ -946,6 +954,12 @@ body
 // dark
 body.dark
   background: $dark
+  .welcome
+    background: url("../img/welcome/bg-desc-dark.png") no-repeat 50% 0/contain
+    @media screen and (max-width: 1050px)
+      background: url("../img/welcome/bg-tab-dark.png") no-repeat 50% 0/contain
+    @media screen and (max-width: 600px)
+      background: url("../img/welcome/bg-mob.png") no-repeat 50% 0/contain
   .predict
     &::before
       background: url("../img/predict/bg-desc-dark.jpg") no-repeat 0 0/contain
@@ -956,11 +970,40 @@ body.dark
     &__title
       &::after
         background: linear-gradient(0deg, $dark 31%, rgba(0, 0, 61, 0) 100%)
+    &__wrap, &__bottom
+      z-index: 3
+    &__multiplier
+      z-index: 0
+      @media screen and (max-width: 500px)
+        z-index: 3
+      &::before, &::after
+        content: ""
+        display: block
+        width: 100%
+        height: 25%
+        position: absolute
+        z-index: 0
+      &::before
+        top: 70px
+        background: linear-gradient(180deg, $dark 0%, rgba(17, 18, 24, 0.00) 100%)
+        @media screen and (max-width: 500px)
+          content: none
+      &::after
+        bottom: 313px
+        background: linear-gradient(0deg, $dark 0%, rgba(17, 18, 24, 0.00) 100%)
+        @media screen and (max-width: 840px)
+          bottom: 295px
+        @media screen and (max-width: 500px)
+          content: none
+    //&__title
+    //  &::after
+    //    background: linear-gradient(0deg, $dark 31%, rgba(0, 0, 61, 0) 100%)
 
   .fav-page
     background: $dark
   .title
     display: none
+    z-index: 3
     &._dark
       display: block
     &::before
@@ -976,6 +1019,12 @@ body.dark
       background: linear-gradient(180deg, $dark 0%, rgba(0, 0, 61, 0) 100%)
     &::after
       background: linear-gradient(0deg, $dark 0%, rgba(0, 0, 61, 0) 100%)
+    &__item
+      &-popup
+        background: url("../img/info/popup-bg-dark.png") no-repeat 50% 0/cover
+        background-size: 100% 100%
+        &-close
+          background: url("../img/close-dark.png") no-repeat 0 0/contain
   .results
     &__nav
       &::before
