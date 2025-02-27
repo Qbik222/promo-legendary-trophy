@@ -1,6 +1,5 @@
 (function (){
     const apiURL = 'https://fav-prom.com/api_legendary_trophy';
-    const apiURLTable = 'https://fav-prom.com/api_shanghai';
     const resultsTable = document.querySelector('#results-table'),
         mainPage = document.querySelector(".fav-page"),
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
@@ -8,7 +7,6 @@
         youAreInBtns = document.querySelectorAll('.took-part'),
         predictionBtn = document.querySelector('.confirmBtn'),
         multiplierSpans = document.querySelectorAll('.predict__multiplier-num'),
-        resultsTableHead = resultsTable.querySelector('.tableResults__head'),
         topResultsTable = document.querySelector('#results-table'),
         resultsTableOther = document.querySelector('#results-table-other'),
         tableNav = document.querySelectorAll(".results__nav-item"),
@@ -17,32 +15,35 @@
         moveRight = document.querySelector(".table__move-right"),
         moveLeftResult = document.querySelector(".results__move-left"),
         moveRightResult = document.querySelector(".results__move-right"),
-        tabsResult = document.querySelectorAll(".results__tab-item"),
         tabsContainer = document.querySelector('.results__tab');
 
     const tableTab = document.querySelectorAll('.table__tab-item')
 
-
+    youAreInBtns.forEach(btn =>{
+        btn.addEventListener("click", () =>{
+            const targetElement = document.getElementById('predict');
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset + 150;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth',
+            });
+        })
+    })
 
     let tournamentStage = sessionStorage.getItem("tournamentStage") ? Number(sessionStorage.getItem("tournamentStage")) : 1
 
     let stageIndex = tournamentStage >= 5 ? 4 : tournamentStage
     let columnIndex = tournamentStage >= 5 ? 4 : tournamentStage
-
-    console.log(stageIndex)
-
     let userInfo = {};
 
     let translateState = true
-    let debug = true
+    let debug = false
     // let locale = 'uk';
     let locale = sessionStorage.getItem("locale") ?? "uk"
     let users;
     let i18nData = {};
-    let i18nDataTable = {}
     let userId;
     userId = sessionStorage.getItem("userId") ? Number(sessionStorage.getItem("userId")) : null
-    // userId = 101107121
 
     const PRIZES_CSS = ['place1', 'place2', 'place3'];
 
@@ -50,7 +51,6 @@
 
     let checkUserAuth = () => {
         if (userId) {
-            console.log(userId)
             for (const unauthMes of unauthMsgs) {
                 unauthMes.classList.add('hide');
             }
@@ -73,7 +73,6 @@
                 participateBtn.classList.add('hide');
             }
             for (const unauthMes of unauthMsgs) {
-                // console.log(unauthMes)
                 unauthMes.classList.remove('hide');
             }
         }
@@ -84,25 +83,11 @@
             return;
         }
         userInfo = user;
-        console.log(userInfo)
-
         // Оновлюємо всі multiplierSpans
         multiplierSpans.forEach((span, index) => {
             span.innerHTML = userInfo.multiplier || 0;
         });
 
-        // let openingBet = {
-        //     bigWinner: {team: 'APEKS', outcome: false},
-        //     bigLoser: {team: 'CLOUD9', outcome: true},
-        //     teamsBet: [{team: 'ENCE'}, {team: 'HEROIC'}, {team: 'SAW', outcome: true}, {team: 'FURIA'}, {team: 'KOI', outcome: false}, {team: 'AMKAL'}, {team: 'LEGACY'}]
-        // };
-        // refreshBets(user.openingBet, promoStages[0]);
-        // refreshBets(user.eliminationBet, promoStages[1]);
-        // refreshBets(user.winnerBet, promoStages[2]);
-
-        // if (activePhase && isValidBet(userInfo[activePhase.betFieldName])) {
-        //     predictionBtns.forEach(item => item.classList.remove('blockBtn'));
-        // }
     }
 
     function loadTranslations() {
@@ -154,9 +139,6 @@
         }).then(res => res.json())
     }
 
-
-
-
     function getData() {
         return Promise.all([
             request('/users?nocache=1'),
@@ -164,27 +146,14 @@
     }
 
     const InitPage = () => {
-        if(debug){
-            Promise.all([
-                requestTable('/users?nocache=1'),
-            ]).then(res =>{
-                users = res[0].sort((a, b) => b.points - a.points);
-                // console.log(users)
-                renderUsers(users);
-            })
-
-        }
         getData().then(res => {
             users = res[0].sort((a, b) => b.points - a.points);
-            // users = users.slice(0, 10)
             if(!debug) {
                 renderUsers(users);
             }
-            // translate();
         })
 
         predictColumns.forEach((column, i) =>{
-            console.log(i)
             if(i + 1 > stageIndex){
                 column.classList.add("_lock")
             }
@@ -215,7 +184,6 @@
             }
         })
         if(window.innerWidth <= 500){
-            // console.log(predictColumns)
             updateActiveStage(predictColumns);
             tableTab.forEach((item, i) =>{
                 if(i === stageIndex - 1){
@@ -253,7 +221,6 @@
 
         }
         checkUserAuth();
-
 
         participateBtns.forEach((authBtn, i) => {
             authBtn.addEventListener('click', (e) => {
@@ -311,21 +278,13 @@
         const additionalUserRow = document.createElement('div');
         additionalUserRow.classList.add('tableResults__row');
 
-
-
         const place = allUsers.indexOf(user) + 1;
         const prizePlaceCss = PRIZES_CSS[place - 1];
         if (prizePlaceCss) {
             additionalUserRow.classList.add(prizePlaceCss);
         }
         let prizeKey;
-
-        if (debug){
-                prizeKey = getPrizeTranslationKeyTest(place)
-        }else{
-            prizeKey = getPrizeTranslationKey(place)
-        }
-        // console.log(prizeKey)
+        prizeKey = getPrizeTranslationKey(place)
 
         additionalUserRow.innerHTML = `
         <div class="tableResults__row-item">${place}</div>
@@ -345,7 +304,6 @@
 
         }
         table.append(additionalUserRow);
-        translateTable()
     }
     function maskUserId(userId) {
         return "**" + userId.toString().slice(2);
@@ -355,7 +313,7 @@
         if (!key) {
             return;
         }
-        return debug ? i18nDataTable[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key : i18nData[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key;
+        return i18nData[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key;
     }
 
     function getPrizeTranslationKey(place) {
@@ -385,7 +343,6 @@
     }
 
 
-    const popupBtns = document.querySelectorAll(".info__item-btn")
     const popups = document.querySelectorAll(".info__item-popup")
 
 
@@ -431,8 +388,6 @@
             item.classList.add("_lock")
         }
 
-        // console.log(i + 1, tournamentStage)
-
         if(i + 1 === tournamentStage){
             item.classList.add("_active")
         }
@@ -473,8 +428,6 @@
 
         const totalSelectable = activeColumn.querySelectorAll(".table__chose").length;
 
-        console.log(selectedTeams, totalSelectable);
-
         // Якщо всі можливі варіанти вибрані, розблоковуємо кнопку, інакше блокуємо
         if (selectedTeams >= totalSelectable) {
             predictionBtn.classList.remove("_lock");
@@ -484,13 +437,11 @@
     }
 
     function activateSelectedTeams(storedPredictData) {
-
         // Проходимося по всіх елементах predictData
         storedPredictData.forEach(data => {
             const { stage, team } = data;
 
             // Знаходимо всі колонки, які відповідають даному етапу (stage)
-            console.log(stage)
             const columns = document.querySelectorAll(`.${getStageClass(stage)}`);
 
             columns.forEach(column => {
@@ -558,10 +509,7 @@
         const teamRadios = teamBlock.querySelectorAll(".table__team-radio");
         const teams = teamBlock.querySelectorAll(".table__team-name");
 
-        // console.log(teamBlock)
-
         teamRadios.forEach((radio, index) => {
-            // console.log(radio)
             radio.addEventListener("click", (e) => {
                 setTimeout(() =>{
                     checkButtonState()
@@ -571,29 +519,23 @@
                 e.target.classList.add("_active")
                 const selectedTeam = teams[index].textContent.trim();
 
-                // Видаляємо попередню команду з цього блоку
                 predictData = predictData.filter(item => {
                     if (item.stage !== stage) return true;
 
                     return !Array.from(teams).some(team => team.textContent.trim() === item.team);
                 });
 
-                // Додаємо нову команду
                 predictData.push({ stage: stage, team: selectedTeam });
 
-                // Оновлюємо localStorage
                 updateLocalStorage();
 
-                console.log(predictData); // Перевіряємо, чи правильно працює
             });
         });
     }
 
 
     function setPredictColumn(column) {
-        // console.log(column.classList.contains("_lock") )
         let stage = ""
-
         column.classList.contains("stage1-8") ? stage = "Opening Stage" : null;
         column.classList.contains("stage1-4") ? stage = "Quarterfinals" : null;
         column.classList.contains("stage1-2") ? stage = "Semifinals" : null;
@@ -601,13 +543,9 @@
 
         const teamBlocks = column.querySelectorAll(".table__chose");
 
-        // console.log(teamBlocks)
-
         teamBlocks.forEach(block => getTeamName(block, stage, column));
 
-
     }
-
 
     function updateActiveStage(stages) {
         stages.forEach((stage, index) => {
@@ -623,7 +561,7 @@
         if (stageIndex > 1) {
             stageIndex--;
         } else {
-            stageIndex = predictColumns.length; // Перехід до останнього елемента
+            stageIndex = predictColumns.length;
         }
         updateActiveStage(predictColumns);
         updateTabsStage();
@@ -633,14 +571,13 @@
         if (stageIndex < predictColumns.length) {
             stageIndex++;
         } else {
-            stageIndex = 1; // Перехід до першого елемента
+            stageIndex = 1;
         }
         updateActiveStage(predictColumns);
         updateTabsStage();
     });
     function updateTabsStage() {
         tableTab.forEach((item, i) => {
-            console.log(i, stageIndex)
             item.classList.remove("_active");
             if (i + 1 === stageIndex) {
                 item.classList.add("_active");
@@ -664,13 +601,11 @@
     });
 
     moveRightResult.addEventListener("click", () => {
-        // console.log(columnIndex, tournamentStage)
         if (columnIndex <= tournamentStage) {
             columnIndex++;
 
         }
         if (columnIndex > tournamentStage && tournamentStage <= 4) {
-            // console.log("2")
             columnIndex = 1;
         }
         if (columnIndex > 4 && tournamentStage > 4) {
@@ -679,7 +614,6 @@
         updateTableTabs();
     });
     function updateTableTabs(){
-        // console.log(columnIndex, tournamentStage)
         tableNav.forEach((item, i) =>{
             item.classList.remove("_active")
             if (i + 1 === columnIndex){
@@ -694,65 +628,8 @@
         })
     }
 
-
-    // moveLeftResult.addEventListener("click", () => {
-    //     if (stageIndex > 1) {
-    //         stageIndex--;
-    //     } else {
-    //         stageIndex = Math.min(tabsResult.length, 4); // Обмежуємо до 4 табів
-    //     }
-    //     updateTabs();
-    // });
-
-    // moveLeftResult.addEventListener("click", () => {
-    //     if (stageIndex > 1) {
-    //         stageIndex--;
-    //     } else {
-    //         stageIndex = Math.min(tabsResult.length, 4); // Обмежуємо до 4 табів
-    //     }
-    //     updateTabs();
-    // });
-    //
-    // moveRightResult.addEventListener("click", () => {
-    //     let maxIndex = Math.min(tabsResult.length, 4);
-    //     console.log(stageIndex)
-    //     if (stageIndex < maxIndex) {
-    //         stageIndex++;
-    //     } else {
-    //         stageIndex = 1;
-    //     }
-    //     updateTabs();
-    // });
-    //
-    //
-    // function updateTabs() {
-    //     tableNav.forEach((item, i) => {
-    //         item.classList.remove("_active");
-    //         if (i + 1 === stageIndex) {
-    //             item.classList.add("_active");
-    //         }
-    //     });
-    //
-    //     // Оновлюємо активний стан для tableNavTab
-    //     tableNavTab.forEach((item, i) => {
-    //         item.classList.remove("_active");
-    //         if (i + 1 === stageIndex) {
-    //             item.classList.add("_active");
-    //         }
-    //     });
-    //
-    //     // Оновлюємо активний стан для tabsResult
-    //     tabsResult.forEach((item, i) => {
-    //         item.classList.remove("_active");
-    //         if (i + 1 === stageIndex) {
-    //             item.classList.add("_active");
-    //         }
-    //     });
-    // }
-
     loadTranslations()
         .then(init)
-        .then(loadTranslationsTable);
 
     document.querySelector(".dark-btn").addEventListener("click", () =>{
         document.body.classList.toggle("dark")
@@ -797,70 +674,6 @@
         localStorage.clear();
         location.reload();
     });
-
-    // for test
-    const requestTable = function (link, extraOptions) {
-        return fetch(apiURLTable + link, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            ...(extraOptions || {})
-        }).then(res => res.json())
-    }
-
-    function getPrizeTranslationKeyTest(place) {
-        if (place <= 5) {
-            return `prize_${place}`
-        } else if (place <= 10) {
-            return `prize_6-10`
-        } else if (place <= 20) {
-            return `prize_11-20`
-        } else if (place <= 35) {
-            return `prize_21-35`
-        } else if (place <= 50) {
-            return `prize_36-50`
-        } else if (place <= 75) {
-            return `prize_51-75`
-        } else if (place <= 100) {
-            return `prize_76-100`
-        } else if (place <= 125) {
-            return `prize_101-125`
-        } else if (place <= 150) {
-            return `prize_126-150`
-        } else if (place <= 175) {
-            return `prize_151-175`
-        } else if (place <= 200) {
-            return `prize_176-200`
-        }
-    }
-
-
-    function loadTranslationsTable() {
-        return fetch(`${apiURLTable}/translates/${locale}`).then(res => res.json())
-            .then(json => {
-                i18nDataTable = json;
-            });
-    }
-
-    function translateTable() {
-
-        const elems = topResultsTable.querySelectorAll('[data-translate]')
-
-
-        if(translateState){
-            elems.forEach(elem => {
-                const key = elem.getAttribute('data-translate');
-                elem.innerHTML = i18nDataTable[key] || '*----NEED TO BE TRANSLATED----*   key:  ' + key;
-                elem.removeAttribute('data-translate');
-            })
-        }else{
-            console.log("translation work!")
-        }
-        refreshLocalizedClass(mainPage);
-    }
-
-    // for test
 
 })()
 
