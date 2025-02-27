@@ -721,6 +721,7 @@ body
     max-height: 528px
     min-height: 528px
     overflow-y: auto
+    overflow-x: hidden
     scrollbar-width: auto
     &::-webkit-scrollbar-thumb
       width: 2px
@@ -749,10 +750,14 @@ body
       font-family: $font-alegreya-med
       font-size: 16px
       line-height: 20px
+      @media screen and (max-width: 500px)
+        left: 10px
     &.place1, &.place2, &.place3
       &._your
         ._your
           left: 53px
+          @media screen and (max-width: 500px)
+            left: 10px
       &::before
         content: ""
         display: block

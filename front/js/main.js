@@ -20,10 +20,16 @@
         tabsResult = document.querySelectorAll(".results__tab-item"),
         tabsContainer = document.querySelector('.results__tab');
 
+    const tableTab = document.querySelectorAll('.table__tab-item')
+
+
 
     let tournamentStage = sessionStorage.getItem("tournamentStage") ? Number(sessionStorage.getItem("tournamentStage")) : 1
 
-    let columnIndex = tournamentStage - 1
+    let stageIndex = tournamentStage >= 5 ? 4 : tournamentStage
+    let columnIndex = tournamentStage >= 5 ? 4 : tournamentStage
+
+    console.log(stageIndex)
 
     let userInfo = {};
 
@@ -36,11 +42,11 @@
     let i18nDataTable = {}
     let userId;
     userId = sessionStorage.getItem("userId") ? Number(sessionStorage.getItem("userId")) : null
+    // userId = 101107121
 
     const PRIZES_CSS = ['place1', 'place2', 'place3'];
 
     let predictData = JSON.parse(localStorage.getItem("predictData")) || [];
-    console.log(predictData)
 
     let checkUserAuth = () => {
         if (userId) {
@@ -67,7 +73,7 @@
                 participateBtn.classList.add('hide');
             }
             for (const unauthMes of unauthMsgs) {
-                console.log(unauthMes)
+                // console.log(unauthMes)
                 unauthMes.classList.remove('hide');
             }
         }
@@ -163,6 +169,7 @@
                 requestTable('/users?nocache=1'),
             ]).then(res =>{
                 users = res[0].sort((a, b) => b.points - a.points);
+                // console.log(users)
                 renderUsers(users);
             })
 
@@ -175,18 +182,21 @@
             }
             // translate();
         })
-        if(window.innerWidth <= 500){
-            updateActiveStage(predictColumns);
-        }
+
         predictColumns.forEach((column, i) =>{
-            if(i + 1 > tournamentStage){
+            console.log(i)
+            if(i + 1 > stageIndex){
                 column.classList.add("_lock")
             }
-            if(i + 1 < tournamentStage){
+            if(i + 1 < stageIndex){
                 column.classList.add("_done")
             }
-            if(i + 1 === tournamentStage){
+            if(i + 1 === stageIndex){
                 column.classList.add("_active")
+            }
+            if(tournamentStage === 5){
+                column.classList.add("_done")
+
             }
             setPredictColumn(column)
             if(column.classList.contains("_lock")){
@@ -204,6 +214,17 @@
                 })
             }
         })
+        if(window.innerWidth <= 500){
+            // console.log(predictColumns)
+            updateActiveStage(predictColumns);
+            tableTab.forEach((item, i) =>{
+                if(i === stageIndex - 1){
+                    item.classList.add("_active")
+                }
+            })
+
+        }
+
         checkButtonState()
     }
 
@@ -276,14 +297,15 @@
         let topUsers = users.slice(0, 20);
         topUsers.forEach(user => displayUser(user, user.userid === currentUserId, resultsTable, users));
 
-        const currentUser = users.find(user => user.userid === currentUserId);
-        const currentUserIndex = currentUser ? users.indexOf(currentUser) : -1;
+        if (topUsers.some(user => user.userid === currentUserId)) return;
 
+        const currentUserIndex = users.findIndex(user => user.userid === currentUserId);
         if (currentUserIndex >= 10) {
             let otherUsers = users.slice(Math.max(10, currentUserIndex - 1), currentUserIndex + 2);
             otherUsers.forEach(user => displayUser(user, user.userid === currentUserId, resultsTableOther, users));
         }
     }
+
 
     function displayUser(user, isCurrentUser, table, allUsers) {
         const additionalUserRow = document.createElement('div');
@@ -303,7 +325,7 @@
         }else{
             prizeKey = getPrizeTranslationKey(place)
         }
-        console.log(prizeKey)
+        // console.log(prizeKey)
 
         additionalUserRow.innerHTML = `
         <div class="tableResults__row-item">${place}</div>
@@ -396,7 +418,7 @@
 
     tabsContainer.innerHTML = '';
 
-    for (let i = 0; i < tournamentStage; i++) {
+    for (let i = 0; i < tournamentStage && i < 4; i++) {
         const tab = document.createElement('div');
         tab.classList.add('results__tab-item');
         tabsContainer.appendChild(tab);
@@ -414,6 +436,9 @@
         if(i + 1 === tournamentStage){
             item.classList.add("_active")
         }
+        if(tournamentStage >= 5 && i === 3){
+            item.classList.add("_active")
+        }
 
         item.addEventListener("click", (e) =>{
             if(e.target.classList.contains("_lock")){
@@ -429,29 +454,22 @@
         if(i + 1 === tournamentStage){
             item.classList.add("_active")
         }
-    })
-
-    const tableTab = document.querySelectorAll('.table__tab-item')
-
-    tableTab.forEach((item, i) =>{
-        if(i + 1 === tournamentStage){
+        if(tournamentStage >= 5 && i === 3){
             item.classList.add("_active")
         }
+
     })
+
+
 
     function checkButtonState() {
         const activeColumn = document.querySelector(".table__column._active");
         if (!activeColumn || !localStorage.getItem("predictData")) return;
 
         const stageClass = Array.from(activeColumn.classList).find(cls => cls.startsWith('stage'))
-        console.log(stageClass)
         const predictData = JSON.parse(localStorage.getItem("predictData"));
         const stage = getStageClassColumn(stageClass);
-        console.log(stage)
         const selectedTeams = predictData.filter(item => item.stage === stage).length
-
-        console.log(predictData.filter(item => item.stage === stage))
-
 
         const totalSelectable = activeColumn.querySelectorAll(".table__chose").length;
 
@@ -497,7 +515,6 @@
         });
     }
 
-// Допоміжна функція для отримання класу етапу на основі його назви
     function getStageClass(stage) {
         switch (stage) {
             case "Opening Stage":
@@ -541,10 +558,10 @@
         const teamRadios = teamBlock.querySelectorAll(".table__team-radio");
         const teams = teamBlock.querySelectorAll(".table__team-name");
 
-        console.log(teamBlock)
+        // console.log(teamBlock)
 
         teamRadios.forEach((radio, index) => {
-            console.log(radio)
+            // console.log(radio)
             radio.addEventListener("click", (e) => {
                 setTimeout(() =>{
                     checkButtonState()
@@ -574,7 +591,7 @@
 
 
     function setPredictColumn(column) {
-        console.log(column.classList.contains("_lock") )
+        // console.log(column.classList.contains("_lock") )
         let stage = ""
 
         column.classList.contains("stage1-8") ? stage = "Opening Stage" : null;
@@ -584,7 +601,7 @@
 
         const teamBlocks = column.querySelectorAll(".table__chose");
 
-        console.log(teamBlocks)
+        // console.log(teamBlocks)
 
         teamBlocks.forEach(block => getTeamName(block, stage, column));
 
@@ -594,105 +611,144 @@
 
     function updateActiveStage(stages) {
         stages.forEach((stage, index) => {
-
-            stage.classList.remove("_active")
-            if(index === columnIndex){
-                console.log("sadas")
-                stage.classList.add("_active")
+            if (index + 1 === stageIndex) {
+                stage.classList.add("_active");
+            }else{
+                stage.classList.remove("_active");
             }
         });
     }
 
     moveLeft.addEventListener("click", () => {
-        if (columnIndex >= 0) {
-            columnIndex--;
-            updateActiveStage(predictColumns);
+        if (stageIndex > 1) {
+            stageIndex--;
+        } else {
+            stageIndex = predictColumns.length; // Перехід до останнього елемента
         }
-        if (columnIndex < 0) {
-            columnIndex = predictColumns.length - 1;
-            updateActiveStage(predictColumns);
-            tableTab.forEach((item, i) =>{
-                item.classList.remove("_active")
-                if(i + 1 === columnIndex){
-                    item.classList.add("_active")
-                }
-            })
-        }
-        tableTab.forEach((item, i) =>{
-            item.classList.remove("_active")
-            if(i === columnIndex){
-                item.classList.add("_active")
-            }
-        })
+        updateActiveStage(predictColumns);
+        updateTabsStage();
     });
 
     moveRight.addEventListener("click", () => {
-        if (columnIndex < predictColumns.length - 1 || columnIndex >= 0) {
-            columnIndex++;
-            updateActiveStage(predictColumns);
+        if (stageIndex < predictColumns.length) {
+            stageIndex++;
+        } else {
+            stageIndex = 1; // Перехід до першого елемента
         }
-        if(columnIndex === predictColumns.length){
-            columnIndex = 0
-            updateActiveStage(predictColumns);
-        }
-        tableTab.forEach((item, i) =>{
-            item.classList.remove("_active")
-            if(i === columnIndex){
-                item.classList.add("_active")
-            }
-        })
+        updateActiveStage(predictColumns);
+        updateTabsStage();
     });
+    function updateTabsStage() {
+        tableTab.forEach((item, i) => {
+            console.log(i, stageIndex)
+            item.classList.remove("_active");
+            if (i + 1 === stageIndex) {
+                item.classList.add("_active");
+            }
+        });
+    }
 
     moveLeftResult.addEventListener("click", () => {
-        if (columnIndex > 0) {
+
+        if (columnIndex >= 1) {
             columnIndex--;
-        } else {
-            columnIndex = tabsResult.length - 1;
         }
-        // updateActiveStage(tabsResult);
-        tableNav.forEach((item, i) =>{
-            item.classList.remove("_active")
-            if(columnIndex < 1){
-                columnIndex = tournamentStage
-            }
+        if (columnIndex < 1 && tournamentStage <= 4){
+            columnIndex = tournamentStage
+        }
+        if (columnIndex < 1 && tournamentStage > 4){
+            columnIndex = 4
+        }
+        updateTableTabs()
 
-            if(i + 1 === columnIndex){
-                item.classList.add("_active")
-            }
-
-        })
-        tableNavTab.forEach((item, i) =>{
-            item.classList.remove("_active")
-            if(i + 1 === columnIndex){
-                item.classList.add("_active")
-            }
-        })
     });
 
     moveRightResult.addEventListener("click", () => {
-        if (columnIndex < tabsResult.length - 1) {
+        // console.log(columnIndex, tournamentStage)
+        if (columnIndex <= tournamentStage) {
             columnIndex++;
-        } else {
-            columnIndex = 0;
+
         }
+        if (columnIndex > tournamentStage && tournamentStage <= 4) {
+            // console.log("2")
+            columnIndex = 1;
+        }
+        if (columnIndex > 4 && tournamentStage > 4) {
+            columnIndex = 1;
+        }
+        updateTableTabs();
+    });
+    function updateTableTabs(){
+        // console.log(columnIndex, tournamentStage)
         tableNav.forEach((item, i) =>{
             item.classList.remove("_active")
-            if(columnIndex > tournamentStage){
-                columnIndex = 1
-            }
-
-            if(i + 1 === columnIndex){
+            if (i + 1 === columnIndex){
                 item.classList.add("_active")
             }
-
         })
         tableNavTab.forEach((item, i) =>{
             item.classList.remove("_active")
-            if(i + 1 === columnIndex){
+            if (i + 1 === columnIndex){
                 item.classList.add("_active")
             }
         })
-    });
+    }
+
+
+    // moveLeftResult.addEventListener("click", () => {
+    //     if (stageIndex > 1) {
+    //         stageIndex--;
+    //     } else {
+    //         stageIndex = Math.min(tabsResult.length, 4); // Обмежуємо до 4 табів
+    //     }
+    //     updateTabs();
+    // });
+
+    // moveLeftResult.addEventListener("click", () => {
+    //     if (stageIndex > 1) {
+    //         stageIndex--;
+    //     } else {
+    //         stageIndex = Math.min(tabsResult.length, 4); // Обмежуємо до 4 табів
+    //     }
+    //     updateTabs();
+    // });
+    //
+    // moveRightResult.addEventListener("click", () => {
+    //     let maxIndex = Math.min(tabsResult.length, 4);
+    //     console.log(stageIndex)
+    //     if (stageIndex < maxIndex) {
+    //         stageIndex++;
+    //     } else {
+    //         stageIndex = 1;
+    //     }
+    //     updateTabs();
+    // });
+    //
+    //
+    // function updateTabs() {
+    //     tableNav.forEach((item, i) => {
+    //         item.classList.remove("_active");
+    //         if (i + 1 === stageIndex) {
+    //             item.classList.add("_active");
+    //         }
+    //     });
+    //
+    //     // Оновлюємо активний стан для tableNavTab
+    //     tableNavTab.forEach((item, i) => {
+    //         item.classList.remove("_active");
+    //         if (i + 1 === stageIndex) {
+    //             item.classList.add("_active");
+    //         }
+    //     });
+    //
+    //     // Оновлюємо активний стан для tabsResult
+    //     tabsResult.forEach((item, i) => {
+    //         item.classList.remove("_active");
+    //         if (i + 1 === stageIndex) {
+    //             item.classList.add("_active");
+    //         }
+    //     });
+    // }
 
     loadTranslations()
         .then(init)
